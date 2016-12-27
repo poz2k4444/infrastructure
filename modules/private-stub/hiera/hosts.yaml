@@ -145,7 +145,8 @@ adblockplus::hosts:
   logprocessor1:
     ips: [10.8.0.211]
     role: logprocessor
-    public_key: *vagrant_box_precise
+    os: "debian-jessie"
+    public_key: *vagrant_box_jessie
   telemetry1:
     ips: [10.8.0.220]
     role: telemetryserver
