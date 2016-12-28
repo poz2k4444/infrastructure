@@ -111,7 +111,8 @@ adblockplus::hosts:
   hg1:
     ips: [10.8.0.152]
     role: hgwebserver
-    public_key: *vagrant_box_precise
+    os: "debian-jessie"
+    public_key: *vagrant_box_jessie
     groups: [http-servers]
   build1:
     ips: [10.8.0.153]

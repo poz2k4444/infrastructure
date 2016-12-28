@@ -1,0 +1,10 @@
+[Unit]
+Description=hgwebdir
+
+[Service]
+Type=forking
+ExecStart=/usr/bin/spawn-fcgi -s /var/run/hgweb.sock -u www-data -P /var/run/hgweb.pid -- /opt/hgweb.fcgi
+
+[Install]
+WantedBy=multi-user.target
+
