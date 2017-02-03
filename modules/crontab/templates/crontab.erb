@@ -1,0 +1,12 @@
+<% if !@vars.empty? -%>
+## Variables
+<%   @vars.each do |key, val| -%>
+<%= key %>=<%= val %>
+<%   end -%>
+<% end -%>
+
+<% if !@jobs.empty? -%>
+<%   for job in @jobs do -%>
+<%= job %>
+<%   end -%>
+<% end -%>
