@@ -91,6 +91,16 @@ class adblockplus (
     enable => true,
   }
 
+  $cron_env = hiera_array('cron::environment', [])
+
+  file { '/etc/crontab':
+    ensure => present,
+    content => template('adblockplus/crontab/crontab.erb'),
+    owner => root,
+    group => root,
+    mode => 0644,
+  }
+
   # Work around https://issues.adblockplus.org/ticket/3479
   if $::environment == 'development' {
 

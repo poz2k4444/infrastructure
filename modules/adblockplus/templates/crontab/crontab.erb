@@ -1,6 +1,8 @@
 ## Variables
-<% @variables.each do |key, val| -%>
-<%= key %>=<%= val %>
+SHELL=/bin/sh
+PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+<% @cron_env.each do |env| -%>
+<%= env %>
 <% end -%>
 
 
