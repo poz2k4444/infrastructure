@@ -172,4 +172,10 @@ adblockplus::hosts:
     os: "debian-jessie"
     public_key: *vagrant_box_jessie
     groups: [http-servers]
+  proxy1:
+    ips: [10.8.0.222]
+    role: proxyserver
+    os: "debian-jessie"
+    public_key: *vagrant_box_jessie
+    groups: [http-servers]
 
