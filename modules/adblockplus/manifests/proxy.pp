@@ -15,7 +15,7 @@
 #
 class adblockplus::proxy(
     $vhost,
-    $repository,
+    $locations = hiera('adblockplus::proxy::locations', undef),
     $certificate = hiera('adblockplus::proxy::certificate', 'undef'),
     $private_key = hiera('adblockplus::proxy::private_key', 'undef'),
     $is_default = false,

@@ -6,10 +6,10 @@ classes:
     private_key: eyeo.com_sslcert.key
     is_default: true
     locations:
-      - "/":
+      "/":
         config: |
           root /var/www/index.html;
-	  expires 30d;
+          expires 30d;
     aliases:
       - www.eyeo.com
       - eyeo.de
