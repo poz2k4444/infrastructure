@@ -5,6 +5,11 @@ classes:
   nagios::client:
     server_address: monitoring.adblockplus.org
   fail2ban:
+  nginx:
+    worker_connections: 40000
+    ssl_session_cache:  false
+    geoip_country: "/usr/share/GeoIP/GeoIPv6.dat"
+    geoip_module: "ngx_http_geoip_module.so"
 
 adblockplus::log::uplink:
   log@log1.adblockplus.org
@@ -13,6 +18,8 @@ adblockplus::packages:
   - "debian-goodies"
   - "mercurial"
   - "vim"
+  - "nginx-module-geoip"
+  - "geoip-database-contrib"
 
 adblockplus::users:
   test:

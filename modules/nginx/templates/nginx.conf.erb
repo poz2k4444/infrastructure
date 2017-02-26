@@ -1,3 +1,7 @@
+<% if @geoip_module -%>
+load_module modules/<%= @geoip_module %>;
+<% end -%>
+
 user <%= scope.lookupvar('nginx::params::user') %> <%= scope.lookupvar('nginx::params::group') %>;
 worker_processes <%= worker_processes %>;
 <% if scope.lookupvar('lsbdistcodename') == 'precise' -%>

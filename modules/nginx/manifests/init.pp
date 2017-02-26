@@ -4,6 +4,7 @@ class nginx (
     $ssl_session_cache =  $nginx::params::ssl_session_cache,
     $geoip_country = undef,
     $geoip_city = undef,
+    $geoip_module = undef,
   ) inherits nginx::params {
 
   # Class['ssh'] is assumed to handle SSL-related quirks and therefore
