@@ -2,9 +2,10 @@ class nginx (
     $worker_processes = $nginx::params::worker_processes,
     $worker_connections = $nginx::params::worker_connections,
     $ssl_session_cache =  $nginx::params::ssl_session_cache,
+    $geoip_module = undef,
+    $geoip_packages = undef,
     $geoip_country = undef,
     $geoip_city = undef,
-    $geoip_module = undef,
   ) inherits nginx::params {
 
   # Class['ssh'] is assumed to handle SSL-related quirks and therefore
@@ -48,6 +49,10 @@ class nginx (
       release => downcase($::lsbdistcodename),
       repos => 'nginx',
       require => Apt::Key['nginx'],
+    }
+
+    if $geoip_packages {
+      ensure_packages($geoip_packages)
     }
   }
 

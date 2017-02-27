@@ -1,4 +1,18 @@
-class filterserver($is_default = false) {
+class filterserver(
+  $is_default = false,
+  $geoip = undef,
+) {
+
+  if $geoip {
+    class {'nginx':
+      worker_connections => 4000,
+      ssl_session_cache => off,
+      geoip_country => $geoip[country],
+      geoip_packages => $geoip[packages],
+      geoip_module => $geoip[module],
+    }
+  }
+
   if !defined(Class['nginx']) {
     class {'nginx':
       worker_connections => 4000,

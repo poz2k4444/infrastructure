@@ -1,0 +1,9 @@
+classes:
+  filterserver:
+    geoip:
+      country: "/usr/share/GeoIP/GeoIPv6.dat"
+      module: "ngx_http_geoip_module.so"
+      packages:
+        - "nginx-module-geoip"
+        - "geoip-database-contrib"
+
