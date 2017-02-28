@@ -1,0 +1,54 @@
+# http_port 80 accel defaultsite=test.eyeo vhost
+# cache_peer 10.8.0.129 parent 80 0 no-query originserver name=myAccel
+# acl our_sites dstdomain eyeo.test
+# http_access allow our_sites
+# cache_peer_access myAccel allow our_sites
+# cache_peer_access myAccel deny all
+
+# acl SSL_ports port 443
+# acl Safe_ports port 80          # http
+# # acl Safe_ports port 21          # ftp
+# # acl Safe_ports port 443         # https
+# # acl Safe_ports port 70          # gopher
+# # acl Safe_ports port 210         # wais
+# # acl Safe_ports port 1025-65535  # unregistered ports
+# # acl Safe_ports port 280         # http-mgmt
+# # acl Safe_ports port 488         # gss-http
+# # acl Safe_ports port 591         # filemaker
+# # acl Safe_ports port 777         # multiling http
+# acl CONNECT method CONNECT
+# http_access deny !Safe_ports
+# http_access deny CONNECT !SSL_ports
+# http_access allow localhost manager
+# http_access deny manager
+# http_access allow localhost
+# http_access deny all
+# coredump_dir /var/spool/squid3
+# # refresh_pattern ^ftp:		1440	20%	10080
+# # refresh_pattern ^gopher:	1440	0%	1440
+# # refresh_pattern -i (/cgi-bin/|\?) 0	0%	0
+# # refresh_pattern .  		  0	20%	4320
+
+http_port 80 accel vhost defaultsite=test.eyeo
+
+cache_peer 10.8.0.129 parent 80 0 proxy-only name=web1
+acl localip src 10.8.0/24
+acl test_site dstdomain test.eyeo
+http_access allow test_site
+cache_peer_access web1 allow test_site
+
+acl all src all
+# acl manager proto cache_object
+acl localhost src 127.0.0.1/32
+# acl to_localhost dst 127.0.0.0/8 0.0.0.0/32
+acl purge method PURGE
+acl CONNECT method CONNECT
+
+http_access allow manager localhost
+http_access deny manager
+http_access allow purge localhost
+http_access deny purge
+http_access deny all
+
+cache deny all
+

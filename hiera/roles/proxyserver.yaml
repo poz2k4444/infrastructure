@@ -1,0 +1,7 @@
+classes:
+  statsclient:
+  adblockplus::proxy:
+    package:
+      name: squid3
+      ensure: present
+
