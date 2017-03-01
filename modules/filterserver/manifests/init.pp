@@ -1,22 +1,19 @@
 class filterserver(
   $is_default = false,
-  $geoip = undef,
+  $geoip = hiera('filterserver::geoip', false),
 ) {
-
-  if $geoip {
-    class {'nginx':
-      worker_connections => 4000,
-      ssl_session_cache => off,
-      geoip_country => $geoip[country],
-      geoip_packages => $geoip[packages],
-      geoip_module => $geoip[module],
-    }
-  }
-
   if !defined(Class['nginx']) {
     class {'nginx':
       worker_connections => 4000,
       ssl_session_cache => off,
+      geoip_country => $geoip ? {
+        false => undef,
+        default => '/usr/share/GeoIP/GeoIPv6.dat',
+      },
+      geoip_module => $geoip ? {
+        false => undef,
+        default => 'ngx_http_geoip_module.so',
+      },
     }
   }
 

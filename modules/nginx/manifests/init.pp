@@ -3,7 +3,6 @@ class nginx (
     $worker_connections = $nginx::params::worker_connections,
     $ssl_session_cache =  $nginx::params::ssl_session_cache,
     $geoip_module = undef,
-    $geoip_packages = undef,
     $geoip_country = undef,
     $geoip_city = undef,
   ) inherits nginx::params {
@@ -49,10 +48,6 @@ class nginx (
       release => downcase($::lsbdistcodename),
       repos => 'nginx',
       require => Apt::Key['nginx'],
-    }
-
-    if $geoip_packages {
-      ensure_packages($geoip_packages)
     }
   }
 

@@ -1,5 +1,5 @@
-<% if @geoip_module -%>
-load_module modules/<%= @geoip_module %>;
+<% if scope.lookupvar('nginx::geoip_module') -%>
+load_module modules/<%= scope.lookupvar('nginx::geoip_module') %>;
 <% end -%>
 
 user <%= scope.lookupvar('nginx::params::user') %> <%= scope.lookupvar('nginx::params::group') %>;

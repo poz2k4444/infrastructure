@@ -40,6 +40,7 @@ class geoip (
   $packages = ['geoip-database'],
   $script = '/usr/local/sbin/update-geoip-database',
   $version = undef,
+  $module = hiera('geoip::module', undef),
 ) {
 
   ensure_resource('package', $packages, {
@@ -49,19 +50,23 @@ class geoip (
     },
   })
 
-  create_resources('cron', {geoip => $cron}, {
-    command => $hook ? {undef => $script, default => "$script && $hook"},
-    ensure => $ensure ? {/^(absent|purged)$/ => 'absent', default => 'present'},
-    hour => 0,
-    minute => 0,
-    user => 'root',
-  })
+  if $::lsbdistcodename == 'precise' {
 
-  file {$script:
-    before => Cron['geoip'],
-    ensure => $ensure ? {/^(absent|purged)$/ => 'absent', default => 'present'},
-    mode => 0755,
-    require => Package[$packages],
-    source => 'puppet:///modules/geoip/update.py',
+    create_resources('cron', {geoip => $cron}, {
+      command => $hook ? {undef => $script, default => "$script && $hook"},
+      ensure => $ensure ? {/^(absent|purged)$/ => 'absent', default => 'present'},
+      hour => 0,
+      minute => 0,
+      user => 'root',
+    })
+
+    file {$script:
+      before => Cron['geoip'],
+      ensure => $ensure ? {/^(absent|purged)$/ => 'absent', default => 'present'},
+      mode => 0755,
+      require => Package[$packages],
+      source => 'puppet:///modules/geoip/update.py',
+    }
   }
 }
+
