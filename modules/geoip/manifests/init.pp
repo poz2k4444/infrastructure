@@ -40,7 +40,6 @@ class geoip (
   $packages = ['geoip-database'],
   $script = '/usr/local/sbin/update-geoip-database',
   $version = undef,
-  $module = hiera('geoip::module', undef),
 ) {
 
   ensure_resource('package', $packages, {
