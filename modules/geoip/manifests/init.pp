@@ -42,7 +42,7 @@ class geoip (
   $version = undef,
 ) {
 
-  ensure_resource('package', "geoip-database", merge({
+  ensure_resource('package', $title, merge({
     ensure => ensure_state($ensure),
   }, $package))
 
@@ -58,7 +58,7 @@ class geoip (
     before => Cron['geoip'],
     ensure => $ensure ? {/^(absent|purged)$/ => 'absent', default => 'present'},
     mode => 0755,
-    require => Package["geoip-database"],
+    require => Package[$title],
     source => 'puppet:///modules/geoip/update.py',
   }
 }
