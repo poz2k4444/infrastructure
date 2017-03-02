@@ -46,13 +46,13 @@ class geoip (
     ensure => ensure_state($ensure),
   }, $package))
 
-  create_resources('cron', {geoip => $cron}, {
+  ensure_resource('cron', $title, merge({
     command => $hook ? {undef => $script, default => "$script && $hook"},
     ensure => $ensure ? {/^(absent|purged)$/ => 'absent', default => 'present'},
     hour => 0,
     minute => 0,
     user => 'root',
-  })
+  }, $cron))
 
   file {$script:
     before => Cron['geoip'],
