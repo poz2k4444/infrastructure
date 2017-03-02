@@ -41,10 +41,7 @@ class geoip (
   $script = hiera('geoip::script', {
     path => '/usr/local/sbin/update-geoip-database',
   }),
-  $version = undef,
 ) {
-
-  notify{$script[path]:}
 
   ensure_resource('package', $title, merge({
     ensure => ensure_state($ensure),
