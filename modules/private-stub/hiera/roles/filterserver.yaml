@@ -2,7 +2,6 @@ classes:
   filterserver:
     geoip: true
   geoip:
-    packages:
-      - "nginx-module-geoip"
-      - "geoip-database-contrib"
+    package:
+      name: "geoip-database-contrib"
 
