@@ -34,9 +34,9 @@
 #   }
 #
 class geoip (
-  $cron = {},
+  $cron = hiera('geoip::cron, {}),
   $ensure = hiera('geoip::ensure', 'present'),
-  $hook = undef,
+  $hook = hiera('geoip::hook', undef),
   $package = hiera('geoip::package', {}),
   $script = '/usr/local/sbin/update-geoip-database',
   $version = undef,
