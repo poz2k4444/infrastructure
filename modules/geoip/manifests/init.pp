@@ -34,32 +34,36 @@
 #   }
 #
 class geoip (
-  $cron = hiera('geoip::cron, {}),
+  $cron = hiera('geoip::cron', {}),
   $ensure = hiera('geoip::ensure', 'present'),
   $hook = hiera('geoip::hook', undef),
   $package = hiera('geoip::package', {}),
-  $script = '/usr/local/sbin/update-geoip-database',
+  $script = hiera('geoip::script', {
+    path => '/usr/local/sbin/update-geoip-database',
+  }),
   $version = undef,
 ) {
+
+  notify{$script[path]:}
 
   ensure_resource('package', $title, merge({
     ensure => ensure_state($ensure),
   }, $package))
 
   ensure_resource('cron', $title, merge({
-    command => $hook ? {undef => $script, default => "$script && $hook"},
+    command => $hook ? {undef => $script[path], default => "$script[path] && $hook"},
     ensure => $ensure ? {/^(absent|purged)$/ => 'absent', default => 'present'},
     hour => 0,
     minute => 0,
     user => 'root',
   }, $cron))
 
-  file {$script:
-    before => Cron['geoip'],
-    ensure => $ensure ? {/^(absent|purged)$/ => 'absent', default => 'present'},
+  ensure_resource('file', $title, merge({
+    before => Cron[$title],
+    ensure => ensure_file_state($ensure),
     mode => 0755,
     require => Package[$title],
     source => 'puppet:///modules/geoip/update.py',
-  }
+  }, $script))
 }
 
