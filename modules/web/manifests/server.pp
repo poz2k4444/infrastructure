@@ -114,14 +114,6 @@ class web::server(
     creates => "/home/www/${repository}/.hg/hgrc",
   }
 
-  exec {"initialize_content":
-    command => "python -m cms.bin.generate_static_pages /home/www/${repository} /var/www/${vhost}",
-    path => ["/usr/bin/", "/bin/"],
-    user => www,
-    require => [Exec["fetch_repo"], Exec["fetch_cms"]],
-    environment => 'PYTHONPATH=/opt/cms:/opt/sitescripts',
-  }
-
   file {'/var/www':
     ensure => directory,
     mode => 755,
