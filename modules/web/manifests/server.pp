@@ -99,16 +99,29 @@ class web::server(
     managehome => true,
   }
 
+  $fetch_cms_cmd = [
+    'hg', 'clone',
+    'https://hg.adblockplus.org/cms/',
+    '/opt/cms',
+  ]
+
   exec {"fetch_cms":
-    command => "hg clone https://hg.adblockplus.org/cms/ /opt/cms",
+    command => shellquote($fetch_cms_cmd),
     path => ["/usr/bin/", "/bin/"],
     require => Package['mercurial'],
     timeout => 0,
     creates => "/opt/cms/.hg/hgrc",
   }
 
+  $fetch_repo_cmd = [
+    'hg', 'clone',
+    '--noupdate',
+    "https://hg.adblockplus.org/${repository}",
+    "/home/www/${repository}",
+  ]
+
   exec {"fetch_repo":
-    command => "hg clone -U https://hg.adblockplus.org/${repository} /home/www/${repository}",
+    command => shellquote($fetch_repo_cmd),
     path => ["/usr/bin/", "/bin/"],
     require => Package['mercurial'],
     user => www,
@@ -145,9 +158,16 @@ class web::server(
     mode => 755,
   }
 
+  $update_cms_cmd = [
+    'hg', 'pull',
+    '--quiet',
+    '--update',
+    '--repository', '/opt/cms',
+  ]
+
   cron {'update_cms':
     ensure => present,
-    command => "hg pull -q -u -R /opt/cms",
+    command => shellquote($update_cms_cmd),
     minute  => '4-59/20',
   }
 
