@@ -1,0 +1,10 @@
+define nodejs::dependency (
+  $global = true,
+) {
+  include nodejs
+
+  exec {"install_$title":
+    command => "npm install --global $title",
+    require => Class['nodejs'],
+  }
+}
