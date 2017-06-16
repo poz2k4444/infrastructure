@@ -48,7 +48,5 @@ class nodejs (
   Apt::Source[$title] <- Apt::Key[$title]
   Apt::Source[$title] -> Package[$title]
 
-  notify{$dependencies:}
-
   create_resources('nodejs::dependency', $dependencies)
 }

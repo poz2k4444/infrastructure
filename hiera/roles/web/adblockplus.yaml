@@ -1,5 +1,8 @@
 classes:
   nodejs:
+    dependencies:
+      jsdoc:
+        global: true
   web::server:
     vhost: adblockplus.org
     certificate: adblockplus.org_sslcert.pem
@@ -13,9 +16,9 @@ classes:
       - /getSubscription
     geoip: true
 
-nodejs::dependency:
-  jsdoc:
-    global: true
+adblockplus::packages:
+  - make
+  - doxygen
 
 adblockplus::log::rotation:
   nginx_email_submission:

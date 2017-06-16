@@ -32,17 +32,6 @@ node 'web2' {
   #   require => Exec['fetch_repository_subscriptionlist']
   # }
 
-  # # We have to set up the APT source and install the jsdoc package via npm
-  # # manually. Once we're on Puppet 3, we can use the official nodejs module for
-  # # all this: https://forge.puppetlabs.com/puppetlabs/nodejs
-
-  # exec {'install_jsdoc':
-  #   command => 'npm install --global jsdoc',
-  #   path => ['/usr/bin/'],
-  #   require => Package['nodejs'],
-  #   onlyif => 'test ! -x /usr/bin/jsdoc',
-  # }
-
   # package {['make', 'doxygen']:}
 
   # cron {'generate_docs':
