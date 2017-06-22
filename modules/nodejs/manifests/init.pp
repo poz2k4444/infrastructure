@@ -17,7 +17,7 @@ class nodejs (
     release => downcase($lsbdistcodename),
     repos => 'main',
   },
-  $dependencies = {},
+  $packages = {},
 ) {
 
   include stdlib
@@ -48,5 +48,5 @@ class nodejs (
   Apt::Source[$title] <- Apt::Key[$title]
   Apt::Source[$title] -> Package[$title]
 
-  create_resources('nodejs::dependency', $dependencies)
+  create_resources('nodejs::package', $packages)
 }

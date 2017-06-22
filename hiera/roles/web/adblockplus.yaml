@@ -1,8 +1,9 @@
 classes:
   nodejs:
-    dependencies:
+    packages:
       jsdoc:
         global: true
+  adblockplus::legacy::webserver:
   web::server:
     vhost: adblockplus.org
     certificate: adblockplus.org_sslcert.pem
