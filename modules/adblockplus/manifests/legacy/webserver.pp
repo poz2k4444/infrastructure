@@ -32,13 +32,11 @@ class adblockplus::legacy::webserver {
     require => Exec['fetch_repository_subscriptionlist']
   }
 
-  package {['make', 'doxygen']:}
-
   cron {'generate_docs':
     ensure => 'present',
     require => [
       Class['sitescripts'],
-#      Exec['install_jsdoc'],
+      Exec['install_jsdoc'],
       Package['make', 'doxygen'],
       File['/var/www/docs'],
     ],

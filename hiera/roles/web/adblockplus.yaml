@@ -1,9 +1,7 @@
 classes:
   nodejs:
-    packages:
-      jsdoc:
-        global: true
   adblockplus::legacy::webserver:
+  adblockplus::log:
   web::server:
     vhost: adblockplus.org
     certificate: adblockplus.org_sslcert.pem
@@ -21,12 +19,16 @@ adblockplus::packages:
   - make
   - doxygen
 
-adblockplus::log::rotation:
+adblockplus::log::rotations:
   nginx_email_submission:
     count: 120
     ensure: present
     interval: monthly
     path: /var/log/nginx/email_submission
+
+nodejs::packages:
+  jsdoc:
+    global: true
 
 sitescripts::configfragments:
   formmail_template:
