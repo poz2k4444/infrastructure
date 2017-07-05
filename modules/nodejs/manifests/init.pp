@@ -4,7 +4,27 @@
 #
 # == Parameters:
 #
+# [*package*]
+#   Overwrite the default package options, to fine-tune the target version (i.e.
+#   ensure => 'latest') or remove nodejs (ensure => 'absent' or 'purged')
+#
+# [*key*]
+#   Overwrite the default apt::key used (given Class['apt'] is defined).
+#
+# [*source*]
+#   Overwrite the default apt::source used (given Class['apt'] is defined).
+#
+# [*packages*]
+#   Adds adittional packages with npm.
+#
 # === Examples:
+#
+#   class {'nodejs':
+#     package => {
+#       ensure => 'latest',
+#     },
+#   }
+#
 #
 class nodejs (
   $key = {
