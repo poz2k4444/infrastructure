@@ -1,19 +1,7 @@
 class filterserver($is_default = false) {
-  if !defined(Class['nginx']) {
-    class {'nginx':
-      worker_connections => 4000,
-      ssl_session_cache => off,
-    }
-  }
 
-  if !defined(File['/var/www']) {
-    file {'/var/www':
-      ensure => directory,
-      owner => nginx,
-      mode => '0755',
-      require => User['nginx']
-    }
-  }
+  include adblockplus::web
+  include nginx
 
   user {'subscriptionstat':
     ensure => absent,
