@@ -32,6 +32,7 @@
 #
 class adblockplus::log (
   $ensure = 'present',
+  $rotations = hiera('adblockplus::log::rotations', {}),
   $trackers = hiera('adblockplus::log::trackers', {}),
 ) {
 
@@ -91,7 +92,6 @@ class adblockplus::log (
   }
 
   # See modules/adblockplus/manifests/log/rotation.pp
-  $rotations = hiera_hash('adblockplus::log::rotations', {})
   create_resources('adblockplus::log::rotation', $rotations)
 
   # See modules/adblockplus/manifests/log/tracker.pp
