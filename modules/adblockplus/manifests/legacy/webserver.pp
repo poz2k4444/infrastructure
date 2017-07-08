@@ -57,3 +57,4 @@ class adblockplus::legacy::webserver {
     minute => '5-55/10',
   }
 }
+
