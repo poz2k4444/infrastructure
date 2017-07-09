@@ -45,28 +45,34 @@ class nodejs (
   ensure_resource('package', $title, merge({
     name => $title,
     require => Apt::Source[$title],
+    ensure => $ensure,
   }, $package))
 
   # Used as default $ensure parameter for most resources below
   $ensure = getparam(Package[$title], 'ensure') ? {
-    /^(absent|purged|held)$/ => 'absent',
+    /^(absent|purged)$/ => 'absent',
     default => 'present',
   }
 
-  # The only package provider recognized implicitly
-  ensure_resource('apt::key', $title, merge({
-    ensure => $ensure,
-    name => 'nodesource',
-  }, $key))
+  if ensure_state($ensure) {
 
-  ensure_resource('apt::source', $title, merge({
-    ensure => $ensure,
-    include_src => false,
-    name => 'nodesource',
-  }, $source))
+    # The only package provider recognized implicitly
+    ensure_resource('apt::key', $title, merge({
+      ensure => $ensure,
+      name => 'nodesource',
+    }, $key))
 
-  Apt::Source[$title] <- Apt::Key[$title]
-  Apt::Source[$title] -> Package[$title]
+    ensure_resource('apt::source', $title, merge({
+      ensure => $ensure,
+      include_src => false,
+      name => 'nodesource',
+    }, $source))
 
-  create_resources('nodejs::package', $packages)
+    Apt::Source[$title] <- Apt::Key[$title]
+    Apt::Source[$title] -> Package[$title]
+
+    create_resources('nodejs::package', $packages)
+
+  }
+
 }

@@ -1,5 +1,4 @@
 define nodejs::package (
-  $ensure = 'present',
   $options = [],
   $provider = 'npm',
 ) {
