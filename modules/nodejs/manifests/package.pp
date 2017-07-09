@@ -1,11 +1,18 @@
+# == Type: nodejs::package
+#
+# Manage nodejs packages.
+#
+# === Parameters:
+#
+# [*options*]
+#  A list of zero or more options to install the package.
+#
 define nodejs::package (
   $options = [],
-  $provider = 'npm',
 ) {
 
   $install_command = [
-    $provider,
-    "install",
+    "npm", "install",
     $options,
     $title,
   ]
