@@ -40,38 +40,32 @@ class nodejs (
   $packages = {},
 ) {
 
-  include stdlib
+  # Used as default $ensure parameter for most resources below
+  $ensure = ensure_state($ensure) ? {
+    false => 'absent',
+    true => 'present',
+  }
 
   ensure_resource('package', $title, merge({
     name => $title,
     ensure => $ensure,
   }, $package))
 
-  # Used as default $ensure parameter for most resources below
-  $ensure = getparam(Package[$title], 'ensure') ? {
-     /^(absent|purged)$/ => 'absent',
-    default => 'present',
-  }
+  # The only package provider recognized implicitly
+  ensure_resource('apt::key', $title, merge({
+    ensure => $ensure,
+    name => 'nodesource',
+  }, $key))
 
-  if ensure_state($ensure) {
+  ensure_resource('apt::source', $title, merge({
+    ensure => $ensure,
+    include_src => false,
+    name => 'nodesource',
+  }, $source))
 
-    # The only package provider recognized implicitly
-    ensure_resource('apt::key', $title, merge({
-      ensure => $ensure,
-      name => 'nodesource',
-    }, $key))
+  Apt::Source[$title] <- Apt::Key[$title]
+  Apt::Source[$title] -> Package[$title]
 
-    ensure_resource('apt::source', $title, merge({
-      ensure => $ensure,
-      include_src => false,
-      name => 'nodesource',
-    }, $source))
-
-    Apt::Source[$title] <- Apt::Key[$title]
-    Apt::Source[$title] -> Package[$title]
-
-    create_resources('nodejs::package', $packages)
-
-  }
-
+  create_resources('nodejs::package', $packages)
 }
+

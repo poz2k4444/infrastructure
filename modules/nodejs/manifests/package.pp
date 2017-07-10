@@ -16,28 +16,32 @@ define nodejs::package (
   $options = [],
 ) {
 
-  $command = [
-    "npm",
-    ensure_state($ensure) ? {
-      true => 'install',
-      false => 'uninstall',
-    },
-    $options,
-    $title,
-  ]
-
   if ensure_state($ensure) {
-    exec {"install_$title":
-      path => ["/usr/bin"],
-      command => shellquote($command),
-      require => Package['nodejs'],
-      creates => "/usr/bin/${title}",
-    }
-  } else {
-    exec {"uninstall_$title":
-      path => ["/usr/bin"],
-      command => shellquote($command),
-      require => Package['nodejs'],
-    }
+    $command = [
+      "npm",
+      "install",
+      $options,
+      $title,
+    ]
+
+    $creates = "/usr/bin/${title}"
+  }
+  else {
+    $command = [
+      "npm",
+      "uninstall",
+      $options,
+      $title,
+    ]
+
+    $creates = undef
+  }
+
+  exec {"state_$title":
+    path => ["/usr/bin"],
+    command => shellquote($command),
+    require => Package['nodejs'],
+    creates => $creates,
   }
 }
+
