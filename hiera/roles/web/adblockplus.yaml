@@ -28,6 +28,7 @@ adblockplus::log::rotations:
 
 nodejs::packages:
   jsdoc:
+    ensure: absent
     options:
       - --global
 

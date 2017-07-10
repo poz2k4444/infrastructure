@@ -44,13 +44,12 @@ class nodejs (
 
   ensure_resource('package', $title, merge({
     name => $title,
-    require => Apt::Source[$title],
     ensure => $ensure,
   }, $package))
 
   # Used as default $ensure parameter for most resources below
   $ensure = getparam(Package[$title], 'ensure') ? {
-    /^(absent|purged)$/ => 'absent',
+     /^(absent|purged)$/ => 'absent',
     default => 'present',
   }
 
