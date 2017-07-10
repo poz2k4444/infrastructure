@@ -1,0 +1,41 @@
+classes:
+  nodejs:
+  adblockplus::legacy::webserver:
+  adblockplus::log:
+  web::server:
+    vhost: adblockplus.org
+    certificate: adblockplus.org_sslcert.pem
+    private_key: adblockplus.org_sslcert.key
+    is_default: true
+    aliases:
+      - www.adblockplus.org
+    custom_config: 'puppet:///modules/web/adblockplus.org.conf'
+    repository: web.adblockplus.org
+    multiplexer_locations:
+      - /getSubscription
+    geoip: true
+
+adblockplus::packages:
+  - make
+  - doxygen
+
+adblockplus::log::rotations:
+  nginx_email_submission:
+    count: 120
+    ensure: present
+    interval: monthly
+    path: /var/log/nginx/email_submission
+
+nodejs::packages:
+  jsdoc:
+    ensure: absent
+    options:
+      - --global
+
+sitescripts::configfragments:
+  formmail_template:
+    content: |
+      [multiplexer]
+      sitescripts.subscriptions.web.fallback =
+      [subscriptions]
+      repository=/opt/sitescripts/sitescripts/subscriptionlist
