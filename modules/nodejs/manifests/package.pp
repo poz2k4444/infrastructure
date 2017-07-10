@@ -4,23 +4,40 @@
 #
 # === Parameters:
 #
+# [*ensure*]
+#  Translated directly into the state of installed/uninstalled
+#  package.
+#
 # [*options*]
 #  A list of zero or more options to install the package.
 #
 define nodejs::package (
+  $ensure = 'present',
   $options = [],
 ) {
 
-  $install_command = [
-    "npm", "install",
+  $command = [
+    "npm",
+    ensure_state($ensure) ? {
+      true => 'install',
+      false => 'uninstall',
+    },
     $options,
     $title,
   ]
 
-  exec {"install_$title":
-    path => ["/usr/bin"],
-    command => shellquote($install_command),
-    require => Package['nodejs'],
-    onlyif => "test ! -x /usr/bin/${title}",
+  if ensure_state($ensure) {
+    exec {"install_$title":
+      path => ["/usr/bin"],
+      command => shellquote($command),
+      require => Package['nodejs'],
+      creates => "/usr/bin/${title}",
+    }
+  } else {
+    exec {"uninstall_$title":
+      path => ["/usr/bin"],
+      command => shellquote($command),
+      require => Package['nodejs'],
+    }
   }
 }
