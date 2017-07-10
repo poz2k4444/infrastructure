@@ -21,7 +21,7 @@ class adblockplus::legacy::webserver {
     user => 'www',
     timeout => 0,
     onlyif => "test ! -d $subscription_repo",
-    require => Package['mercurial'],
+    require => Class['web::server'],
   }
 
   $update_repo_cmd = [
@@ -48,10 +48,8 @@ class adblockplus::legacy::webserver {
     ensure => 'present',
     require => [
       Class['sitescripts'],
-      Exec['install_jsdoc'],
-      Package['make', 'doxygen'],
-      File['/var/www/docs'],
-    ],
+      Class['web::server'],
+     ],
     command => shellquote($generate_docs_cmd),
     user => www,
     minute => '5-55/10',

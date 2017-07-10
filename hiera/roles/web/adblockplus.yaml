@@ -37,4 +37,4 @@ sitescripts::configfragments:
       [multiplexer]
       sitescripts.subscriptions.web.fallback =
       [subscriptions]
-      repository=$sitescripts_var_dir/subscriptionlist
+      repository=/opt/sitescripts/sitescripts/subscriptionlist
