@@ -2,18 +2,6 @@ classes:
   nodejs:
   adblockplus::legacy::webserver:
   adblockplus::log:
-  web::server:
-    vhost: adblockplus.org
-    certificate: adblockplus.org_sslcert.pem
-    private_key: adblockplus.org_sslcert.key
-    is_default: true
-    aliases:
-      - www.adblockplus.org
-    custom_config: 'puppet:///modules/web/adblockplus.org.conf'
-    repository: web.adblockplus.org
-    multiplexer_locations:
-      - /getSubscription
-    geoip: true
 
 adblockplus::packages:
   - make

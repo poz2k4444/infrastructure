@@ -6,6 +6,19 @@
 # See http://hub.eyeo.com/issues/2007 for more information.
 #
 class adblockplus::legacy::webserver {
+
+  class {'web::server':
+    vhost => 'adblockplus.org',
+    certificate => 'adblockplus.org_sslcert.pem',
+    private_key => 'adblockplus.org_sslcert.key',
+    is_default => true,
+    aliases => ['www.adblockplus.org'],
+    custom_config => template("web/adblockplus.org.conf.erb"),
+    repository => 'web.adblockplus.org',
+    multiplexer_locations => ['/getSubscription'],
+    geoip => true,
+  }
+
   $subscription_repo = '/home/www/subscriptionlist'
 
   $fetch_repo_cmd = [
