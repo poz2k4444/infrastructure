@@ -1,5 +1,4 @@
-#import 'issuesserver.pp'
-import 'webserver.pp'
+import 'issuesserver.pp'
 
 node default {
 }
