@@ -26,3 +26,4 @@ sitescripts::configfragments:
       sitescripts.subscriptions.web.fallback =
       [subscriptions]
       repository=/opt/sitescripts/sitescripts/subscriptionlist
+
