@@ -16,8 +16,7 @@ adblockplus::log::rotations:
 
 nodejs::packages:
   jsdoc:
-    options:
-      - --global
+    ensure: present
 
 sitescripts::configfragments:
   formmail_template:
