@@ -19,29 +19,29 @@ define nodejs::package (
   if ensure_state($ensure) {
     $command = [
       "npm",
-      "install",
+      "install", "--global",
       $options,
       $title,
     ]
 
-    $creates = "/usr/bin/${title}"
+    $onlyif = "test `npm view jsdoc version`"
   }
   else {
     $command = [
       "npm",
-      "uninstall",
+      "uninstall", "--global",
       $options,
       $title,
     ]
 
-    $creates = undef
+    $onlyif = "test ! `npm view jsdoc version`"
   }
 
   exec {"state_$title":
     path => ["/usr/bin"],
     command => shellquote($command),
     require => Package['nodejs'],
-    creates => $creates,
+    onlyif => $onlyif,
   }
 }
 
