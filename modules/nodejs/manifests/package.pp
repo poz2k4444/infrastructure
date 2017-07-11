@@ -24,7 +24,7 @@ define nodejs::package (
       $title,
     ]
 
-    $onlyif = "test `npm view jsdoc version`"
+    $onlyif = "test `npm view ${name} version`"
   }
   else {
     $command = [
@@ -34,7 +34,7 @@ define nodejs::package (
       $title,
     ]
 
-    $onlyif = "test ! `npm view jsdoc version`"
+    $onlyif = "test ! `npm view ${name} version`"
   }
 
   exec {"state_$title":
