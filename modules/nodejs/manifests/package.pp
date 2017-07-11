@@ -16,6 +16,13 @@ define nodejs::package (
   $options = [],
 ) {
 
+  $check_command = [
+    "npm", "list",
+    "--global",
+    "--parseable",
+    $name,
+  ]
+
   if ensure_state($ensure) {
     $command = [
       "npm",
@@ -24,7 +31,7 @@ define nodejs::package (
       $title,
     ]
 
-    $onlyif = "test `npm view ${name} version`"
+    $onlyif = shellquote("test", "!", "`${check_command}`")
   }
   else {
     $command = [
@@ -34,7 +41,7 @@ define nodejs::package (
       $title,
     ]
 
-    $onlyif = "test ! `npm view ${name} version`"
+    $onlyif = shellquote("test", "`${check_command}`")
   }
 
   exec {"state_$title":
