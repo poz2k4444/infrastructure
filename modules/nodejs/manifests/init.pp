@@ -41,9 +41,11 @@ class nodejs (
 ) {
 
   # Used as default $ensure parameter for most resources below
-  $ensure = ensure_state($ensure) ? {
-    false => 'absent',
-    true => 'present',
+  if ensure_state($ensure) {
+    $ensure = 'present'
+  }
+  else {
+    $ensure = 'absent'
   }
 
   ensure_resource('package', $title, merge({
