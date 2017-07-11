@@ -40,7 +40,6 @@ class nodejs (
   $packages = {},
 ) {
 
-  # Used as default $ensure parameter for most resources below
   if ensure_state($ensure) {
     $ensure = 'present'
   }
@@ -68,6 +67,8 @@ class nodejs (
   Apt::Source[$title] <- Apt::Key[$title]
   Apt::Source[$title] -> Package[$title]
 
-  create_resources('nodejs::package', $packages)
+  ensure_resources('nodejs::package', $packages, {
+    ensure => 'present',
+  })
 }
 

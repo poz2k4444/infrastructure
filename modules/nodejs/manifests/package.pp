@@ -31,7 +31,8 @@ define nodejs::package (
       $title,
     ]
 
-    $onlyif = shellquote("test", "!", "`${check_command}`")
+    $unless = shellquote($check_command)
+    $onlyif = undef
   }
   else {
     $command = [
@@ -41,7 +42,8 @@ define nodejs::package (
       $title,
     ]
 
-    $onlyif = shellquote("test", "`${check_command}`")
+    $unless = undef
+    $onlyif = shellquote($check_command)
   }
 
   exec {"state_$title":
@@ -49,6 +51,7 @@ define nodejs::package (
     command => shellquote($command),
     require => Package['nodejs'],
     onlyif => $onlyif,
+    unless => $unless,
   }
 }
 
