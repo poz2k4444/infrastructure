@@ -1,6 +1,6 @@
 # == Class: nodejs
 #
-# Install nodejs package from source
+# Install nodejs package from NodeSource
 #
 # == Parameters:
 #
