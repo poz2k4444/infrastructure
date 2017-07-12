@@ -13,7 +13,6 @@
 #
 define nodejs::package (
   $ensure = 'present',
-  $options = [],
 ) {
 
   $check_command = [
@@ -27,7 +26,6 @@ define nodejs::package (
     $command = [
       "npm",
       "install", "--global",
-      $options,
       $title,
     ]
 
@@ -38,7 +36,6 @@ define nodejs::package (
     $command = [
       "npm",
       "uninstall", "--global",
-      $options,
       $title,
     ]
 
@@ -46,8 +43,8 @@ define nodejs::package (
     $onlyif = shellquote($check_command)
   }
 
-  exec {"state_$title":
-    path => ["/usr/bin"],
+  exec {"nodejs_package_$title":
+    path => ["/usr/bin", "/bin"],
     command => shellquote($command),
     require => Package['nodejs'],
     onlyif => $onlyif,
