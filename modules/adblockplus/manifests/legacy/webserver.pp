@@ -19,6 +19,11 @@ class adblockplus::legacy::webserver {
     geoip => true,
   }
 
+  ensure_packages([
+    'make',
+    'doxygen',
+  ])
+
   $subscription_repo = '/home/www/subscriptionlist'
 
   $fetch_repo_cmd = [

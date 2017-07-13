@@ -3,10 +3,6 @@ classes:
   adblockplus::legacy::webserver:
   adblockplus::log:
 
-adblockplus::packages:
-  - make
-  - doxygen
-
 adblockplus::log::rotations:
   nginx_email_submission:
     count: 120
@@ -23,5 +19,5 @@ sitescripts::configfragments:
       [multiplexer]
       sitescripts.subscriptions.web.fallback =
       [subscriptions]
-      repository=/opt/sitescripts/sitescripts/subscriptionlist
+      repository=/home/www/subscriptionlist
 
