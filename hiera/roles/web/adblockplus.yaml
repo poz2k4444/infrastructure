@@ -12,7 +12,7 @@ adblockplus::log::rotations:
 
 nginx::modules:
   geoip:
-    path: ngx_http_geoip_module.so
+    path: modules/ngx_http_geoip_module.so
 
 nodejs::packages:
   jsdoc:
