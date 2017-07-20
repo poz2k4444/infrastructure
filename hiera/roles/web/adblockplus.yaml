@@ -2,10 +2,6 @@ classes:
   nodejs:
   adblockplus::legacy::webserver:
 
-nginx::modules:
-  geoip:
-    path: modules/ngx_http_geoip_module.so
-
 nodejs::packages:
   jsdoc:
 
