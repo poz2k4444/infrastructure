@@ -28,6 +28,8 @@ class adblockplus::legacy::webserver {
     'doxygen',
   ])
 
+  nodejs::package{'jsdoc':}
+
   $subscription_repo = '/home/www/subscriptionlist'
 
   $fetch_repo_cmd = [

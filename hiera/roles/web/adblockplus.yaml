@@ -2,9 +2,6 @@ classes:
   nodejs:
   adblockplus::legacy::webserver:
 
-nodejs::packages:
-  jsdoc:
-
 sitescripts::configfragments:
   formmail_template:
     content: |
