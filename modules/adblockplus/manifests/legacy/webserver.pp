@@ -19,10 +19,16 @@ class adblockplus::legacy::webserver {
     geoip => true,
   }
 
+  nginx::module{'geoip':
+    path => 'modules/ngx_http_geoip_module.so',
+  }
+
   ensure_packages([
     'make',
     'doxygen',
   ])
+
+  nodejs::package{'jsdoc':}
 
   $subscription_repo = '/home/www/subscriptionlist'
 
