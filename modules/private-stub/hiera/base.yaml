@@ -1,6 +1,6 @@
 classes:
   adblockplus:
-#  adblockplus::mercurial:
+  adblockplus::mercurial:
   adblockplus::puppet::agent:
   adblockplus::sudo:
   nagios::client:

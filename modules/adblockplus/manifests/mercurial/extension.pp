@@ -52,19 +52,22 @@ define adblockplus::mercurial::extension (
   # https://forge.puppet.com/puppetlabs/stdlib#ensure_resource
   # https://forge.puppet.com/puppetlabs/stdlib#merge
   ensure_resource('file', "$name.rc", merge({
-    'content' => $default_content,
-    'ensure' => ensure_file_state($adblockplus::mercurial::ensure),
-    'path' => "/etc/mercurial/hgrc.d/$name.rc",
+    content => $default_content,
+    ensure => ensure_file_state($adblockplus::mercurial::ensure),
+    path => "/etc/mercurial/hgrc.d/$name.rc",
   }, $config))
 
   # https://docs.puppet.com/puppet/latest/lang_relationships.html
   File["$name.rc"] <- Package['mercurial']
 
+  ensure_resource('package', 'python-dev')
+
   # https://docs.puppet.com/puppet/latest/function.html#defined
-  if defined($package) {
+  if defined('$package') {
 
     ensure_resource('package', $name, merge({
-      'ensure' => $adblockplus::mercurial::ensure,
+      ensure => $adblockplus::mercurial::ensure,
+      require => Package['python-dev'],
     }, $package))
 
     Package[$name] <- Package['mercurial']

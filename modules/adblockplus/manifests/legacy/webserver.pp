@@ -14,6 +14,7 @@ class adblockplus::legacy::webserver {
     aliases => ['www.adblockplus.org'],
     custom_config => template("web/adblockplus.org.conf.erb"),
     repository => 'web.adblockplus.org',
+    remote => 'git://github.com/adblockplus/web.adblockplus.org.git',
     multiplexer_locations => ['/getSubscription'],
     geoip => true,
   }
