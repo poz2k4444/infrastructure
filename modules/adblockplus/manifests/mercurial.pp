@@ -44,7 +44,7 @@ class adblockplus::mercurial (
     mode => '0644',
     owner => 'root',
     path => '/etc/mercurial/hgrc',
-    source => $default_source,
+    content => $default_content,
   }, $config))
 
   # https://docs.puppet.com/puppet/latest/lang_relationships.html

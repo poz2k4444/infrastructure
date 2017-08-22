@@ -5,7 +5,7 @@ classes:
 adblockplus::mercurial::extensions:
   hggit:
     package:
-      ensure: latest
+      ensure: 0.8.9
       name: hg-git
       provider: pip
       install_options:
