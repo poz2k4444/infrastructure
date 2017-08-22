@@ -6,7 +6,6 @@
 # See http://hub.eyeo.com/issues/2007 for more information.
 #
 class adblockplus::legacy::webserver {
-
   class {'web::server':
     vhost => 'adblockplus.org',
     certificate => 'adblockplus.org_sslcert.pem',

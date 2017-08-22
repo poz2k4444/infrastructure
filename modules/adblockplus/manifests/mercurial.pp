@@ -12,7 +12,6 @@
 #
 class adblockplus::mercurial (
   $config = {},
-  $extensions = {},
   $package = {},
 ) {
 
@@ -40,17 +39,18 @@ class adblockplus::mercurial (
 
   # https://forge.puppet.com/puppetlabs/stdlib#merge
   ensure_resource('file', 'hgrc', merge({
-    'ensure' => ensure_file_state(Package['mercurial']),
-    'group' = 'root',
-    'mode' => '0644',
-    'owner' => 'root',
-    'path' => '/etc/mercurial/hgrc',
-    'source' => $default_source,
+    ensure => ensure_file_state(Package['mercurial']),
+    group => 'root',
+    mode => '0644',
+    owner => 'root',
+    path => '/etc/mercurial/hgrc',
+    source => $default_source,
   }, $config))
 
   # https://docs.puppet.com/puppet/latest/lang_relationships.html
   Package['mercurial'] -> File['hgrc']
 
   # https://docs.puppet.com/puppet/latest/function.html#createresources
+  $extensions = hiera_hash('adblockplus::mercurial::extensions', {})
   create_resources('adblockplus::mercurial::extension', $extensions)
 }

@@ -2,6 +2,13 @@ classes:
   nodejs:
   adblockplus::legacy::webserver:
 
+# adblockplus::mercurial::extensions:
+#   hggit:
+#     package:
+#       ensure: latest
+#       name: hg-git
+#       provider: pip
+
 sitescripts::configfragments:
   formmail_template:
     content: |

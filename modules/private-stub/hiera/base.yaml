@@ -1,5 +1,6 @@
 classes:
   adblockplus:
+#  adblockplus::mercurial:
   adblockplus::puppet::agent:
   adblockplus::sudo:
   nagios::client:
@@ -11,7 +12,6 @@ adblockplus::log::uplink:
 
 adblockplus::packages:
   - "debian-goodies"
-  - "mercurial"
   - "vim"
 
 adblockplus::users:
