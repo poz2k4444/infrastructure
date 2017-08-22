@@ -3,11 +3,13 @@ classes:
   adblockplus::legacy::webserver:
 
 adblockplus::mercurial::extensions:
-  hg-git:
+  hggit:
     package:
       ensure: latest
       name: hg-git
       provider: pip
+      install_options:
+        - https://pypi.python.org/pypi/hg-git
 
 sitescripts::configfragments:
   formmail_template:
