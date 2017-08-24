@@ -2,6 +2,8 @@ classes:
   nodejs:
   adblockplus::legacy::webserver:
 
+web::server::remote: git://github.com/adblockplus/web.adblockplus.org.git
+
 adblockplus::mercurial::extensions:
   hggit:
     package:
