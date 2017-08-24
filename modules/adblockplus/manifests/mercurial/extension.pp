@@ -8,8 +8,7 @@
 #   Overwrite the default hgrc.d/$name file for Mercurial extensions.
 #
 # [*package*]
-#   Overwrite the default package/extension options, to fine-tune the target
-#   version.
+#   Overwrite the default package/extension options.
 #
 # === Examples:
 #
