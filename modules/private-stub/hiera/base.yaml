@@ -21,8 +21,8 @@ adblockplus::log::uplink:
 
 adblockplus::packages:
   - "debian-goodies"
-  - "vim"
   - "python-dev"
+  - "vim"
 
 adblockplus::users:
   test:
