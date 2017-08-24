@@ -4,10 +4,18 @@
 #
 # === Parameters:
 #
+# [*config*]
+#   Overwrite the default hgrc file options for the Mercurial config.
+#
+# [*package*]
+#   Overwrite the default package options, to fine-tune the target version.
+#
 # === Examples:
 #
 #   class {'adblockplus::mercurial':
-#     ensure => 'latest',
+#     package => {
+#       ensure => 'latest',
+#     },
 #   }
 #
 class adblockplus::mercurial (
