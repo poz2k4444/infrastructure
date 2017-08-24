@@ -4,15 +4,6 @@ classes:
 
 web::server::remote: git://github.com/adblockplus/web.adblockplus.org.git
 
-adblockplus::mercurial::extensions:
-  hggit:
-    package:
-      ensure: 0.8.9
-      name: hg-git
-      provider: pip
-      install_options:
-        - https://pypi.python.org/pypi/hg-git
-
 sitescripts::configfragments:
   formmail_template:
     content: |

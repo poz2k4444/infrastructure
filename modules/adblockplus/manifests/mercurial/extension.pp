@@ -4,6 +4,13 @@
 #
 # === Parameters:
 #
+# [*config*]
+#   Overwrite the default hgrc.d/$name file for Mercurial extensions.
+#
+# [*package*]
+#   Overwrite the default package/extension options, to fine-tune the target
+#   version.
+#
 # === Examples:
 #
 #   adblockplus::mercurial::extension {'example':
@@ -23,6 +30,7 @@
 #       'ensure' => 'latest',
 #       'name' => 'hg-git',
 #       'provider' => 'pip',
+#       'install_options' => ['https://pypi.python.org/pypi/hg-git'],
 #     },
 #   }
 #
@@ -59,8 +67,6 @@ define adblockplus::mercurial::extension (
 
   # https://docs.puppet.com/puppet/latest/lang_relationships.html
   File["$name.rc"] <- Package['mercurial']
-
-  ensure_resource('package', 'python-dev')
 
   # https://docs.puppet.com/puppet/latest/function.html#defined
   if defined('$package') {
