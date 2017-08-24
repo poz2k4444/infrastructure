@@ -68,8 +68,6 @@ define adblockplus::mercurial::extension (
   # https://docs.puppet.com/puppet/latest/lang_relationships.html
   File["$name.rc"] <- Package['mercurial']
 
-  ensure_resource('package', 'python-dev')
-
   # https://docs.puppet.com/puppet/latest/function.html#defined
   if defined('$package') {
 
