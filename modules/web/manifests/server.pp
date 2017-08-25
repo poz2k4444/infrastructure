@@ -13,7 +13,6 @@ class web::server(
 
   include sitescripts
   include adblockplus::web
-  include adblockplus::mercurial
 
   $pythonpath = 'PYTHONPATH=/opt/cms:/opt/sitescripts'
 
