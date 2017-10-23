@@ -62,7 +62,7 @@ adblockplus::hosts:
     os: "debian-jessie"
     public_key: *vagrant_box_jessie
     groups: [http-servers]
-  issues1:
+  issues-2:
     ips: [10.8.0.131]
     role: issueserver
     os: "debian-jessie"
@@ -165,6 +165,12 @@ adblockplus::hosts:
   redirect-1:
     ips: [10.8.0.225]
     role: web/redirect/eyeo
+    os: "debian-jessie"
+    public_key: *vagrant_box_jessie
+    groups: [http-servers]
+  eyeofiles-1:
+    ips: [10.8.0.226]
+    role: web/fileserver/eyeofiles
     os: "debian-jessie"
     public_key: *vagrant_box_jessie
     groups: [http-servers]
