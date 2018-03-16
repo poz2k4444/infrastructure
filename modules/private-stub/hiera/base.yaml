@@ -6,7 +6,6 @@ classes:
   nagios::client:
     server_address: monitoring.adblockplus.org
   fail2ban:
-  adblockplus::mercurial::extension::hggit:
 
 adblockplus::log::uplink:
   log@log1.adblockplus.org
