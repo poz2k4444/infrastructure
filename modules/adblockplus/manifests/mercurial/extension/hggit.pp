@@ -38,3 +38,4 @@ class adblockplus::mercurial::extension::hggit (
     require => Exec['upgrade urllib3'],
   }
 }
+
