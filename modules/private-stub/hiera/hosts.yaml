@@ -169,7 +169,7 @@ adblockplus::hosts:
     public_key: *vagrant_box_jessie
   help-eyeo-com-1:
     ips: [10.8.0.228]
-    role: web/helpcenter
+    role: web/static/helpcenter
     os: "debian-jessie"
     public_key: *vagrant_box_jessie
    

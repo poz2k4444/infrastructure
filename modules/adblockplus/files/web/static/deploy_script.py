@@ -14,15 +14,23 @@ import urllib2
 def download(url):
     file_name = url.split('/')[-1]
     print 'Downloading: ' + file_name
-    with closing(urllib2.urlopen(url)) as page:
-        block_sz = 8912
-        with open(file_name, 'wb') as f:
-            while True:
-                buffer = page.read(block_sz)
-                if not buffer:
-                    break
-                f.write(buffer)
-    return os.path.join(os.getcwd(), file_name)
+    try:
+        with closing(urllib2.urlopen(url)) as page:
+            block_sz = 8912
+            with open(file_name, 'wb') as f:
+                while True:
+                    buffer = page.read(block_sz)
+                    if not buffer:
+                        break
+                    f.write(buffer)
+        return os.path.join(os.getcwd(), file_name)
+    except urllib2.HTTPError as e:
+        if e.code == 404:
+            sys.exit("File not found on remote source")
+        else:
+            sys.exit("Problem fetching the file from remote source")
+    except Exception as e:
+        sys.exit(e)
 
 
 def calculate_md5(file):
@@ -95,7 +103,7 @@ if __name__ == '__main__':
                         help='URL where files will be downloaded')
     parser.add_argument('--domain', action='store', type=str, nargs='?',
                         help='''The domain to prepend
-                        <[eg. https://$domain.eyeofiles.com''')
+                        [eg. https://$domain.eyeofiles.com]''')
     parser.add_argument('--website', action='store', type=str, nargs='?',
                         help='The name of the website [e.g. help.eyeo.com]')
     args = parser.parse_args()
