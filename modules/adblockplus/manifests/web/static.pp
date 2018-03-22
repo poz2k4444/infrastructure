@@ -18,9 +18,6 @@
 #   The name of the private key file within modules/private/files, if any.
 #   Requires a certificate as well.
 #
-# [*is_default*]
-#   Passed on to nginx (whether or not the site config should be default).
-#
 # [*ensure*]
 #   Whether to set up the website or not.
 #
@@ -34,7 +31,6 @@ class adblockplus::web::static (
   $domain = undef,
   $ssl_certificate = undef,
   $ssl_private_key = undef,
-  $is_default = true,
   $ensure = 'present',
   $deploy_user = 'web-deploy',
   $deploy_user_authorized_keys = undef,
