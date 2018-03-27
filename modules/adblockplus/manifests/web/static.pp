@@ -52,9 +52,14 @@ class adblockplus::web::static (
   include geoip
   include ssh
 
+  File {
+    mode => '0755',
+    owner => $deploy_user,
+    group => $deploy_user,
+  }
+
   ensure_resource('file', "/var/www/$domain", {
     ensure => ensure_directory_state($ensure),
-    mode => '0775',
     owner => www-data,
     group => www-data,
   })
@@ -74,6 +79,15 @@ class adblockplus::web::static (
     password_hash => '*',
     shell => '/bin/bash',
     groups => ['www-data'],
+  })
+
+  ensure_resource('file', "/usr/local/bin/commands", {
+    ensure => ensure_file_state($ensure),
+    content => template('adblockplus/web/commands.sh.erb'),
+  })
+
+  ensure_resource('file', "/home/$deploy_user/bin", {
+    ensure => ensure_directory_state($ensure),
   })
 
   # https://docs.puppet.com/puppet/latest/function.html#createresources

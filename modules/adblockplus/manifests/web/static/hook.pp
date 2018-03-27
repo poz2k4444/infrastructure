@@ -14,7 +14,10 @@
 #      source => 'puppet:///modules/adblockplus/web/deploy.py',
 #      path => '/usr/local/bin/deploy.py',
 #    },
-#    'own-uname' => {
+#   }
+#
+#  adblockplus::web::static::hook {'uname':
+#    'file' => {
 #      content => 'uname -a',
 #    },
 #  }
@@ -23,26 +26,13 @@ define adblockplus::web::static::hook (
   $file = {},
 ) {
 
-  File {
+  ensure_resource('file', "script#${name}", merge({
+    ensure => ensure_file_state($adblockplus::web::static::ensure),
+    path => "/home/$adblockplus::web::static::deploy_user/bin/${name}",
     mode => '0755',
     owner => $adblockplus::web::static::deploy_user,
     group => $adblockplus::web::static::deploy_user,
-  }
 
-  ensure_resource('file', "/usr/local/bin/commands", {
-    ensure => ensure_file_state($adblockplus::web::static::ensure),
-    content => template('adblockplus/web/commands.sh.erb'),
-  })
-
-  ensure_resource('file', "/home/$adblockplus::web::static::deploy_user/bin", {
-    ensure => ensure_directory_state($adblockplus::web::static::ensure),
-  })
-
-  ensure_resource('file',
-  "script#${name}",
-  merge({
-    ensure => ensure_file_state($adblockplus::web::static::ensure),
-    path => "/home/$adblockplus::web::static::deploy_user/bin/${name}",
   }, $file))
 
 }
