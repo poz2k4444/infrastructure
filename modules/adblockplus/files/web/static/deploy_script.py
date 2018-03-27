@@ -13,17 +13,19 @@ import urllib2
 
 def download(url):
     file_name = url.split('/')[-1]
+    abs_file_name = os.path.join(os.path.dirname(os.path.realpath(__file__)),
+                                 file_name)
     print 'Downloading: ' + file_name
     try:
         with closing(urllib2.urlopen(url)) as page:
             block_sz = 8912
-            with open(file_name, 'wb') as f:
+            with open(abs_file_name, 'wb') as f:
                 while True:
                     buffer = page.read(block_sz)
                     if not buffer:
                         break
                     f.write(buffer)
-        return os.path.join(os.getcwd(), file_name)
+        return abs_file_name
     except urllib2.HTTPError as e:
         if e.code == 404:
             sys.exit("File not found on remote source")
@@ -48,7 +50,10 @@ def read_md5(file):
 
 def untar(tar_file):
     if tarfile.is_tarfile(tar_file):
+        print tar_file
         with tarfile.open(tar_file, 'r:gz') as tar:
+#            print dir(tar)
+            print tar.tarinfo()
             tar.extractall()
             print 'Extracted in current directory'
             return os.path.dirname(os.path.abspath(__file__))

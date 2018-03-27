@@ -21,10 +21,20 @@
 # [*ensure*]
 #   Whether to set up the website or not.
 #
+# [*hooks*]
+#   Hash of adblockplus::web::static::hook items to set up in this context.
+#
 # === Examples:
 #
 #   class {'adblockplus::web::static':
 #     domain => 'help.eyeo.com',
+#     hooks => {
+#       deploy => {
+#         file => {
+#           content => 'uname -a',
+#         }
+#       }
+#     },
 #   }
 #
 class adblockplus::web::static (
@@ -34,6 +44,7 @@ class adblockplus::web::static (
   $ensure = 'present',
   $deploy_user = 'web-deploy',
   $deploy_user_authorized_keys = undef,
+  $hooks = {},
 ) {
 
   include adblockplus::web
@@ -41,49 +52,31 @@ class adblockplus::web::static (
   include geoip
   include ssh
 
-  file {"/usr/local/bin/commands":
-    ensure => ensure_file_state($ensure),
-    source => 'puppet:///modules/adblockplus/web/static/commands.sh',
-    mode => '0755',
-    owner => $deploy_user,
-    group => $deploy_user,
-  }
-
-  file {"/var/www/$domain":
+  ensure_resource('file', "/var/www/$domain", {
     ensure => ensure_directory_state($ensure),
     mode => '0775',
     owner => www-data,
     group => www-data,
-  }
+  })
 
-  nginx::hostconfig {$title:
+  ensure_resource('nginx::hostconfig', $title, {
     content => template('adblockplus/web/static.conf.erb'),
     certificate => $ssl_certificate,
     domain => $domain,
     is_default => $is_default,
     private_key => $ssl_private_key,
     log => "access_log_$domain",
-  }
+  })
 
-  adblockplus::user {$deploy_user:
+  ensure_resource('adblockplus::user', $deploy_user, {
     authorized_keys => $deploy_user_authorized_keys,
     ensure => $ensure,
     password_hash => '*',
     shell => '/bin/bash',
     groups => ['www-data'],
-  }
+  })
 
-  file {"/home/$deploy_user/bin":
-    ensure => ensure_directory_state($ensure),
-    mode => '0755',
-    owner => $deploy_user,
-  }
-
-  file {"/home/$deploy_user/deploy_script.py":
-    source => 'puppet:///modules/adblockplus/web/static/deploy_script.py',
-    ensure => $ensure,
-    mode => '0755',
-    owner => $deploy_user,
-  }
-
+  # https://docs.puppet.com/puppet/latest/function.html#createresources
+  create_resources('adblockplus::web::static::hook', $hooks)
 }
+

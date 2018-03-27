@@ -4,6 +4,14 @@ classes:
     deploy_user: "helpcenter-deploy"
     deploy_user_authorized_keys:
       - "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACcgC+yCp66GDc1iWCXRv/mZslxfG83uUHdOtPiOA2qtZwj6KheWbfTgB2KcV4MiXrgIT/ls8w43zZf4mhVwNXnW295v6i24qAC6qjL08M134MgcCuS+Gz+Ma30YZUwT9ZQWJRp4y9UnZbXQ+Nkl0bS2XQrVbGWP0VnIbXNtoUYb/XOm+twnccgVPsqMg9AAcVKPINrcW+2Lr77k44K8nKqbJZzb5YrQZhpj1GH3Wx/TrluzJKGVJpBz7st/gt8ulLR5ETeQAvNwAV0/h4/3+9P93euYrOzpjzDTusMOuxQ8npFyTOd4Bx56DugaLkQsbR4bu3T7kYynrVqD6MK/zxLs6Ipn3+juwybb5J5HNZKMAten+7MOA8oMF7VfIwb9Nppt8JOqSO4YoAfwCCSCvYj92JMJP8Ko0LbnAyVRmc70218jaQk+Gr7Y/TYTseEGAVa/z3emvHc7tH2osyh+IX/WnIR+tApaWd1kTS2Xifo5i91pQbwvBZRccL8YUTP97pEkNDNe0LXesyEgCtepe4qFIg2x2oHgx8Y8PmC+XwY0cJ/z6qZ6nUL4l2ccVcA5Z/o27Vaj4zmVgGSOaukkdCE7AFlTa4EIrATjlInhhYLgOBGII7zJE6HOcqufOPJnlDY5VhYeWCShSdF1d0kMl11QYOIz2CYr07SlVD/Upn7z927JKWHCfAeYb/uhJwb2eF92VluIdzLkTMO3Icv1U4Vxvif2YR2vfur3PhvDXrBuxCW8h8wLXrhOJ4Njx4MiBj3Ym4Dv+KZCaxd+Aq14HMB+EdVsFl4apm4zwakzq9dudpv1DAFgr3c8bVnNclDRxXGQEL user@Client067"
+    hooks:
+      deploy:
+        file:
+          source: "puppet:///modules/adblockplus/web/static/deploy_script.py"
+      own-uname:
+        file:
+          content: "uname -a"
+
 
 ssh::sshd_configfragments:
   helpcenter:
