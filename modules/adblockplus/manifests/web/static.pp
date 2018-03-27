@@ -21,6 +21,12 @@
 # [*ensure*]
 #   Whether to set up the website or not.
 #
+# [*deploy_user*]
+#   User that will be used to issue commands.
+#
+# [*deploy_user_authorized_keys*]
+#   Array of public keys that will have access to ssh commands
+#
 # [*hooks*]
 #   Hash of adblockplus::web::static::hook items to set up in this context.
 #
@@ -29,7 +35,7 @@
 #   class {'adblockplus::web::static':
 #     domain => 'help.eyeo.com',
 #     hooks => {
-#       deploy => {
+#       own-uname => {
 #         file => {
 #           content => 'uname -a',
 #         }
