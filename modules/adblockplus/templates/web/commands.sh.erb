@@ -5,7 +5,7 @@ set $SSH_ORIGINAL_COMMAND
 command="$1"; shift
 case "$command" in
     "uname")
-        /home/helpcenter-deploy/bin/own-uname
+        /home/<%= scope.lookupvar("adblockplus::web::static::deploy_user") %>/bin/own-uname
         ;;
     *)
         echo "Sorry. Only these commands are available to you:"

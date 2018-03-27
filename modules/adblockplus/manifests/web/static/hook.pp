@@ -31,7 +31,7 @@ define adblockplus::web::static::hook (
 
   ensure_resource('file', "/usr/local/bin/commands", {
     ensure => ensure_file_state($adblockplus::web::static::ensure),
-    source => 'puppet:///modules/adblockplus/web/static/commands.sh',
+    content => template('adblockplus/web/commands.sh.erb'),
   })
 
   ensure_resource('file', "/home/$adblockplus::web::static::deploy_user/bin", {
