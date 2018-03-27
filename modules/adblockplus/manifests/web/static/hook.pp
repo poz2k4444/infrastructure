@@ -34,6 +34,5 @@ define adblockplus::web::static::hook (
     group => $adblockplus::web::static::deploy_user,
 
   }, $file))
-
 }
 
