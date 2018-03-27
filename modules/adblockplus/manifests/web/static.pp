@@ -44,7 +44,7 @@
 #   }
 #
 class adblockplus::web::static (
-  $domain = undef,
+  $domain,
   $ssl_certificate = undef,
   $ssl_private_key = undef,
   $ensure = 'present',
