@@ -74,9 +74,9 @@ class adblockplus::web::static (
     content => template('adblockplus/web/static.conf.erb'),
     certificate => $ssl_certificate,
     domain => $domain,
-    is_default => $is_default,
+    is_default => 'true',
     private_key => $ssl_private_key,
-    log => "access_log_$domain",
+    log => "web.access.log",
   })
 
   ensure_resource('adblockplus::user', $deploy_user, {
@@ -87,9 +87,9 @@ class adblockplus::web::static (
     groups => ['www-data'],
   })
 
-  ensure_resource('file', "/usr/local/bin/commands", {
+  ensure_resource('file', "/usr/local/bin/hooks_wrapper", {
     ensure => ensure_file_state($ensure),
-    content => template('adblockplus/web/commands.sh.erb'),
+    content => template('adblockplus/web/hooks_wrapper.sh.erb'),
   })
 
   ensure_resource('file', "/home/$deploy_user/bin", {

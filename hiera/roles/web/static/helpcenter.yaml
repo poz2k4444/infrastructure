@@ -16,7 +16,7 @@ ssh::sshd_configfragments:
         X11Forwarding no
         AllowAgentForwarding no
         GatewayPorts no
-        ForceCommand /usr/local/bin/commands
+        ForceCommand /usr/local/bin/hooks_wrapper
     ensure:
       "present"
 

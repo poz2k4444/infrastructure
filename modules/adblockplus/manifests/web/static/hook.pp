@@ -26,13 +26,13 @@ define adblockplus::web::static::hook (
   $file = {},
 ) {
 
-  ensure_resource('file', "script#${name}", merge({
+  ensure_resource('file', "hook#${name}", merge({
+    mode => '0755',
+    owner =>$adblockplus::web::static::deploy_user,
+    group => $adblockplus::web::static::deploy_user,
+  }, $file, {
     ensure => ensure_file_state($adblockplus::web::static::ensure),
     path => "/home/$adblockplus::web::static::deploy_user/bin/${name}",
-    mode => '0755',
-    owner => $adblockplus::web::static::deploy_user,
-    group => $adblockplus::web::static::deploy_user,
-
-  }, $file))
+  }))
 }
 

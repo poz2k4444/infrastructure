@@ -8,7 +8,7 @@ charset utf-8;
 set $index_page "index";
 
 <% if @custom_config %>
-  <%= @custom_config %>
+<%=   @custom_config %>
 <% end %>
 
 location /
@@ -23,32 +23,33 @@ location /
 
   # Match Accept-Language header against available languages
 
-  set $preferredLang en;
-  set $preferredRegion "";
+  set $lang en;
+  set $region "";
+
   if ($http_accept_language ~ ^(\w\w)\b)
   {
-    set $preferredLang $1;
+    set lang $1;
   }
   if ($http_accept_language ~ ^\w\w-(\w\w)\b)
   {
-    set $preferredRegion $1;
+    set $region $1;
   }
 
   if ($arg_fb_locale ~ ^(\w\w)_(\w\w)$)
   {
-    set $preferredLang $1;
-    set $preferredRegion $2;
+    set $lang $1;
+    set $region $2;
   }
 
   # Redirect canonical URLs to language-specific versions
 
   if (-e "$document_root/${preferredLang}_$preferredRegion$uri")
   {
-    rewrite ^(.*) /${preferredLang}_$preferredRegion$1 last;
+    rewrite ^(.*) /${lang}_$region last;
   }
   if (-e "$document_root/$preferredLang$uri")
   {
-    rewrite ^(.*) /$preferredLang$1 last;
+    rewrite ^(.*) /$lang$1 last;
   }
   if (-e "$document_root/en$uri")
   {
