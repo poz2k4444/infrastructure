@@ -79,6 +79,23 @@ class adblockplus::web::static (
     log => "web.access.log",
   })
 
+  $content = [
+    "Match User ${deploy_user}",
+    'AllowTcpForwarding no',
+    'X11Forwarding no',
+    'AllowAgentForwarding no',
+    'GatewayPorts no',
+    'ForceCommand /usr/local/bin/hooks_wrapper',
+  ]
+
+  create_resources('concat::fragment', {
+  helpcenter => {
+    content => join($content, "\n"),
+    ensure => 'present',
+    target => 'sshd_config',
+    order => '20',
+  }})
+
   ensure_resource('adblockplus::user', $deploy_user, {
     authorized_keys => $deploy_user_authorized_keys,
     ensure => $ensure,
