@@ -7,16 +7,3 @@ classes:
         file:
           content: "uname -a"
 
-
-ssh::sshd_configfragments:
-  helpcenter:
-    content: |
-      Match User helpcenter-deploy
-        AllowTcpForwarding no
-        X11Forwarding no
-        AllowAgentForwarding no
-        GatewayPorts no
-        ForceCommand /usr/local/bin/hooks_wrapper
-    ensure:
-      "present"
-
