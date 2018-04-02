@@ -1,15 +1,19 @@
 #!/bin/sh
-# Script: /usr/local/bin/wrapper.sh
-#command="$SSH_ORIGINAL_COMMAND"; shift
-set $SSH_ORIGINAL_COMMAND
+
+# This script is a wrapper of accesible commands via ssh ForceCommand option
+set -- $SSH_ORIGINAL_COMMAND
 command="$1"; shift
 case "$command" in
-    "uname")
-        /home/<%= scope.lookupvar("adblockplus::web::static::deploy_user") %>/bin/own-uname
+    <%- @hooks.each do |command, values| -%>
+    <%= command %>)
+        /home/<%= @deploy_user %>/bin/<%= command %> "$@"
         ;;
+    <%- end -%>
     *)
         echo "Sorry. Only these commands are available to you:"
-        echo "uname"
+        <%- @hooks.keys.select { |key| key.to_s}.each do |value| -%>
+        echo <%= value %>
+        <%- end -%>
         exit 1
         ;;
 esac
