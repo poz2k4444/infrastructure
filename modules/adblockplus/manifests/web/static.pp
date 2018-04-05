@@ -97,7 +97,6 @@ class adblockplus::web::static (
   ensure_resource('adblockplus::user', $deploy_user, {
     authorized_keys => $deploy_user_authorized_keys,
     ensure => $ensure,
-    password_hash => '*',
     shell => '/bin/bash',
     groups => ['www-data'],
   })
