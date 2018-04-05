@@ -48,7 +48,7 @@ class adblockplus::web::static (
   $ssl_private_key = undef,
   $ensure = 'present',
   $deploy_user = 'web-deploy',
-  $deploy_user_authorized_keys = undef,
+  $deploy_user_authorized_keys = [],
   $hooks = {},
 ) {
 
