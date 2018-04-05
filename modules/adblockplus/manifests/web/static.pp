@@ -106,7 +106,7 @@ class adblockplus::web::static (
     content => template('adblockplus/web/hooks_wrapper.sh.erb'),
   })
 
-  ensure_resource('file', "/home/$deploy_user/bin", {
+  ensure_resource('file', "/home/${deploy_user}/bin", {
     ensure => ensure_directory_state($ensure),
   })
 
