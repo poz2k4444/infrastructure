@@ -87,13 +87,12 @@ class adblockplus::web::static (
     'ForceCommand /usr/local/bin/hooks_wrapper',
   ]
 
-  create_resources('concat::fragment', {
-  helpcenter => {
+  ensure_resource('concat::fragment', 'helpcenter', {
     content => join($content, "\n"),
     ensure => 'present',
     target => 'sshd_config',
     order => '20',
-  }})
+  })
 
   ensure_resource('adblockplus::user', $deploy_user, {
     authorized_keys => $deploy_user_authorized_keys,
