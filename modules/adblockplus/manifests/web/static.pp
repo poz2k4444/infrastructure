@@ -101,7 +101,7 @@ class adblockplus::web::static (
     groups => ['www-data'],
   })
 
-  ensure_resource('file', "/usr/local/bin/hooks_wrapper", {
+  ensure_resource('file', '/usr/local/bin/hooks_wrapper', {
     ensure => ensure_file_state($ensure),
     content => template('adblockplus/web/hooks_wrapper.sh.erb'),
   })
