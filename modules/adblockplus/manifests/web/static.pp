@@ -73,7 +73,7 @@ class adblockplus::web::static (
     content => template('adblockplus/web/static.conf.erb'),
     certificate => $ssl_certificate,
     domain => $domain,
-    is_default => 'true',
+    is_default => true,
     private_key => $ssl_private_key,
     log => "web.access.log",
   })
