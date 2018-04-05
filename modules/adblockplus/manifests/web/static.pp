@@ -88,7 +88,7 @@ class adblockplus::web::static (
   ]
 
   ensure_resource('concat::fragment', 'helpcenter', {
-    content => join($content, "\n"),
+    content => join($content, "\n\t"),
     ensure => 'present',
     target => 'sshd_config',
     order => '20',
