@@ -4,7 +4,6 @@
 # that uses a customizable deployment script to e.g. fetch the content
 # from a repository server (ref. http://hub.eyeo.com/issues/4523)
 #
-#
 # === Parameters:
 #
 # [*domain*]
