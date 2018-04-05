@@ -75,7 +75,7 @@ class adblockplus::web::static (
     domain => $domain,
     is_default => true,
     private_key => $ssl_private_key,
-    log => "web.access.log",
+    log => 'web.access.log',
   })
 
   $content = [
