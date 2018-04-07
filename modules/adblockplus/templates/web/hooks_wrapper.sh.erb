@@ -1,17 +1,19 @@
 #!/bin/sh
+# Puppet: <%= @title %>
+# This script is a wrapper of accesible hooks, defined via hiera and accessed
+# via ssh with the ForceCommand option.
 
-# This script is a wrapper of accesible commands via ssh ForceCommand option
 set -- $SSH_ORIGINAL_COMMAND
 command="$1"; shift
 case "$command" in
-    <%- @hooks.each do |command, values| -%>
-    <%= command %>)
-        /home/<%= @deploy_user %>/bin/<%= command %> "$@"
+    <%- @hooks.each do |hook, values| -%>
+    <%= hook %>)
+        /home/<%= @deploy_user %>/bin/<%= hook %> "$@"
         ;;
     <%- end -%>
     *)
         echo "Sorry. Only these commands are available to you:"
-        <%- @hooks.keys.select { |key| key.to_s}.each do |value| -%>
+        <%- @hooks.keys do |value| -%>
         echo <%= value %>
         <%- end -%>
         exit 1
