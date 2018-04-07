@@ -18,24 +18,24 @@ location /
   # Redirect server/language root
 
   rewrite ^/$ /$index_page last;
-  rewrite ^/(\w\w(_\w\w)?)$ /$1/ permanent;
-  rewrite ^/(\w\w(_\w\w)?)/$ /$1/$index_page last;
+  rewrite ^/([a-z][a-z](_[A-Z][A-Z])?)$ /$1/ permanent;
+  rewrite ^/([a-z][a-z](_[A-Z][A-Z])?)/$ /$1/$index_page last;
 
   # Match Accept-Language header against available languages
 
   set $language en;
   set $region "";
 
-  if ($http_accept_language ~ ^(\w\w)\b)
+  if ($http_accept_language ~ ^([a-z][a-z])\b)
   {
-    set language $1;
+    set $language $1;
   }
-  if ($http_accept_language ~ ^\w\w-(\w\w)\b)
+  if ($http_accept_language ~ ^([a-z][a-z])-([A-Z][A-Z])\b)
   {
     set $region $1;
   }
 
-  if ($arg_fb_locale ~ ^(\w\w)_(\w\w)$)
+  if ($arg_fb_locale ~ ^([a-z][a-z])_([A-Z][A-Z])$)
   {
     set $language $1;
     set $region $2;
@@ -43,13 +43,13 @@ location /
 
   # Redirect canonical URLs to language-specific versions
 
-  if (-e "$document_root/${preferredLang}_$preferredRegion$uri")
+  if (-e "$document_root/${language}_$region$uri")
   {
     rewrite ^(.*) /${language}_$region last;
   }
-  if (-e "$document_root/$preferredLang$uri")
+  if (-e "$document_root/$language$uri")
   {
-    rewrite ^(.*) /$lang$1 last;
+    rewrite ^(.*) /$language$1 last;
   }
   if (-e "$document_root/en$uri")
   {
