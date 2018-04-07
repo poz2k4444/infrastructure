@@ -84,7 +84,7 @@ class adblockplus::web::static (
     'X11Forwarding no',
     'AllowAgentForwarding no',
     'GatewayPorts no',
-    'ForceCommand /usr/local/bin/hooks_wrapper',
+    'ForceCommand /usr/local/bin/hooks_wrapper $SSH_ORIGINAL_COMMAND',
   ]
 
   ensure_resource('concat::fragment', 'helpcenter', {

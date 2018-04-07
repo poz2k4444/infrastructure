@@ -3,7 +3,6 @@
 # This script is a wrapper of accesible hooks, defined via hiera and accessed
 # via ssh with the ForceCommand option.
 
-set -- $SSH_ORIGINAL_COMMAND
 command="$1"; shift
 case "$command" in
     <%- @hooks.each do |hook, values| -%>
@@ -13,9 +12,9 @@ case "$command" in
     <%- end -%>
     *)
         echo "Sorry. Only these commands are available to you:"
-        <%- @hooks.keys do |value| -%>
-        echo <%= value %>
-        <%- end -%>
+<%      @hooks.keys.each do |key| -%>
+        echo <%= key %>
+<%      end -%>
         exit 1
         ;;
 esac
