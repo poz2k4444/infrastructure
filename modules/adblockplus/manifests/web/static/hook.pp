@@ -26,7 +26,7 @@ define adblockplus::web::static::hook (
   $file = {},
 ) {
 
-  ensure_resource('file', "hook#${name}", merge({
+  ensure_resource('file', "web-deploy-hook#${title}", merge({
     mode => '0755',
     owner => $adblockplus::web::static::deploy_user,
     group => $adblockplus::web::static::deploy_user,
