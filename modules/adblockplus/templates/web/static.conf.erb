@@ -23,12 +23,12 @@ location /
 
   # Match Accept-Language header against available languages
 
-  set $lang en;
+  set $language en;
   set $region "";
 
   if ($http_accept_language ~ ^(\w\w)\b)
   {
-    set lang $1;
+    set language $1;
   }
   if ($http_accept_language ~ ^\w\w-(\w\w)\b)
   {
@@ -37,7 +37,7 @@ location /
 
   if ($arg_fb_locale ~ ^(\w\w)_(\w\w)$)
   {
-    set $lang $1;
+    set $language $1;
     set $region $2;
   }
 
@@ -45,7 +45,7 @@ location /
 
   if (-e "$document_root/${preferredLang}_$preferredRegion$uri")
   {
-    rewrite ^(.*) /${lang}_$region last;
+    rewrite ^(.*) /${language}_$region last;
   }
   if (-e "$document_root/$preferredLang$uri")
   {
