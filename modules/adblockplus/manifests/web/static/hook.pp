@@ -5,7 +5,7 @@
 # === Parameters:
 #
 # [*file*]
-#   Overwrite the default configuration for the hook.
+#   Overwrite group and the source of the content of the file.
 #
 # === Examples:
 #
@@ -27,10 +27,10 @@ define adblockplus::web::static::hook (
 ) {
 
   ensure_resource('file', "web-deploy-hook#${title}", merge({
-    mode => '0755',
-    owner => $adblockplus::web::static::deploy_user,
     group => $adblockplus::web::static::deploy_user,
   }, $file, {
+    mode => '0755',
+    owner => $adblockplus::web::static::deploy_user,
     ensure => ensure_file_state($adblockplus::web::static::ensure),
     path => "/home/${adblockplus::web::static::deploy_user}/bin/${name}",
   }))
