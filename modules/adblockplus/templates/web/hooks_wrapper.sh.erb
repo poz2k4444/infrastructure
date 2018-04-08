@@ -17,11 +17,11 @@ case "$command" in
   "help")
     usage
     ;;
-<%      @hooks.each do |hook, values| -%>
+<%  @hooks.each do |hook, values| -%>
 <%= hook %>)
-        /home/<%= @deploy_user %>/bin/<%= hook %> "$@"
-        ;;
-<%      end -%>
+    /home/<%= @deploy_user %>/bin/<%= hook %> "$@"
+    ;;
+<%  end -%>
   *)
     echo "Unrecognized command"
     usage
