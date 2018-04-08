@@ -3,18 +3,29 @@
 # This script is a wrapper of accesible hooks, defined via hiera and accessed
 # via ssh with the ForceCommand option.
 
+usage()
+{
+  echo "Avaiable commands are:"
+  echo "help"
+<% @hooks.keys.each do |key| -%>
+  echo "<%= key %>"
+<% end -%>
+}
+
 command="$1"; shift
 case "$command" in
-    <%- @hooks.each do |hook, values| -%>
-    <%= hook %>)
+  "help")
+    usage
+    ;;
+<%      @hooks.each do |hook, values| -%>
+<%= hook %>)
         /home/<%= @deploy_user %>/bin/<%= hook %> "$@"
         ;;
-    <%- end -%>
-    *)
-        echo "Sorry. Only these commands are available to you:"
-<%      @hooks.keys.each do |key| -%>
-        echo <%= key %>
 <%      end -%>
-        exit 1
-        ;;
+  *)
+    echo "Unrecognnized command"
+    usage
+    exit 1
+    ;;
 esac
+
