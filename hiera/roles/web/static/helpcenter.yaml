@@ -2,8 +2,9 @@ classes:
   adblockplus::web::static:
     domain: "help.eyeo.com"
     deploy_user: "helpcenter-deploy"
-    hooks:
-      own-uname:
-        file:
-          content: "uname -a"
+
+adblockplus::web::static::hooks:
+  uname:
+    file:
+      content: "uname -a"
 
