@@ -17,9 +17,9 @@ case "$command" in
   "help")
     usage
     ;;
-<%  @hooks.each do |hook, values| -%>
-<%= hook %>)
-    /home/<%= @deploy_user %>/bin/<%= hook %> "$@"
+<%  @hooks.each do |command, values| -%>
+"<%= command %>")
+    <%= scope.function_join([[@wrapper_path, command], "/"]) %> "$@"
     ;;
 <%  end -%>
   *)

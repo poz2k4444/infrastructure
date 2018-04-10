@@ -26,13 +26,15 @@ define adblockplus::web::static::hook (
   $file = {},
 ) {
 
+  $hook_path = "/home/${adblockplus::web::static::deploy_user}/bin/${name}"
+
   ensure_resource('file', "web-deploy-hook#${title}", merge({
     group => $adblockplus::web::static::deploy_user,
   }, $file, {
     mode => '0755',
     owner => $adblockplus::web::static::deploy_user,
     ensure => ensure_file_state($adblockplus::web::static::ensure),
-    path => "/home/${adblockplus::web::static::deploy_user}/bin/${name}",
+    path => $hook_path,
   }))
 }
 

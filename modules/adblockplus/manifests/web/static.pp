@@ -101,13 +101,15 @@ class adblockplus::web::static (
     groups => ['www-data'],
   })
 
+  $wrapper_path = "/home/${deploy_user}/bin"
+  ensure_resource('file', 'commands_dir', {
+    path => $wrapper_path,
+    ensure => ensure_directory_state($ensure),
+  })
+
   ensure_resource('file', '/usr/local/bin/hooks_wrapper', {
     ensure => ensure_file_state($ensure),
     content => template('adblockplus/web/hooks_wrapper.sh.erb'),
-  })
-
-  ensure_resource('file', "/home/${deploy_user}/bin", {
-    ensure => ensure_directory_state($ensure),
   })
 
   # https://docs.puppet.com/puppet/latest/function.html#createresources
