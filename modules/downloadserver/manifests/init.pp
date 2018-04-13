@@ -55,7 +55,7 @@ class downloadserver(
       File['/var/www/downloads'],
     ],
     timeout => 0,
-    creates => "/var/www/downloads/.hg"
+    creates => "/var/www/downloads/.hg/hgrc"
   }
 
   File {
