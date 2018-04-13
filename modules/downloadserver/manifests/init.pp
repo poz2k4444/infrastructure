@@ -133,6 +133,6 @@ class downloadserver(
     environment => hiera('cron::environment', []),
     user => rsync,
     hour => '*',
-    minute => '4-54/10',
+    minute => '4-54/10'
   }
 }
