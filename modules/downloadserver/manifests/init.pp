@@ -55,7 +55,7 @@ class downloadserver(
       File['/var/www/downloads'],
     ],
     timeout => 0,
-    onlyif => "test ! -d /var/www/downloads/.hg"
+    creates => "/var/www/downloads/.hg"
   }
 
   File {
@@ -86,9 +86,9 @@ class downloadserver(
     minute => '3-59/20'
   }
 
-  package { 'rsync':
-    ensure => present,
-  }
+  ensure_packages([
+    'rsync',
+  ])
 
   file {'/var/www/devbuilds':
     ensure => directory,
