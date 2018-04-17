@@ -18,7 +18,7 @@
 #   Requires a certificate as well.
 #
 # [*ensure*]
-#   Whether to set up the website or not.
+#   Whether to set up the website or not, e.g. "asbsent" or "present".
 #
 # [*deploy_user*]
 #   User that will be used to issue commands.
