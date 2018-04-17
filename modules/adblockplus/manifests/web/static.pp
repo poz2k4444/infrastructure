@@ -54,7 +54,6 @@ class adblockplus::web::static (
 
   include adblockplus::web
   include nginx
-  include geoip
   include ssh
 
   File {
