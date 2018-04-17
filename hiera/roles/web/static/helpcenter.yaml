@@ -4,7 +4,8 @@ classes:
     deploy_user: "helpcenter-deploy"
 
 adblockplus::web::static::hooks:
-  uname:
+  uptime:
     file:
-      content: "uname -a"
+      target: "/usr/bin/uptime"
+      ensure: "link"
 
