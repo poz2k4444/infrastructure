@@ -34,11 +34,17 @@
 #   class {'adblockplus::web::static':
 #     domain => 'help.eyeo.com',
 #     hooks => {
-#       own-uname => {
+#       uname => {
 #         file => {
 #           content => 'uname -a',
 #         }
-#       }
+#       },
+#       uptime => {
+#         file => {
+#           target => '/usr/bin/uptime',
+#           ensure => 'link',
+#         }
+#       },
 #     },
 #   }
 #

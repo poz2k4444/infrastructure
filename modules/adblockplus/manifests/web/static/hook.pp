@@ -30,7 +30,7 @@
 #  }
 #
 define adblockplus::web::static::hook (
-  $file = {},
+  $file,
 ) {
 
   $hook_path = "/home/${adblockplus::web::static::deploy_user}/bin/${name}"
