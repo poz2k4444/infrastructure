@@ -17,11 +17,11 @@ case "$command" in
   "help")
     usage
     ;;
-<%  @hooks.each do |command, values| -%>
+<% @hooks.each do |command, values| -%>
 "<%= command %>")
-    <%= scope.function_join([[@wrapper_path, command], "/"]) %> "$@"
+    "<%= File.join(@wrapper_path, command) %>" "$@"
     ;;
-<%  end -%>
+<% end -%>
   *)
     echo "Unrecognized command"
     usage
