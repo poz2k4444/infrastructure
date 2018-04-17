@@ -10,22 +10,22 @@
 # === Examples:
 #
 #  adblockplus::web::static::hook {'deploy':
-#    'file' => {
+#    file => {
 #      source => 'puppet:///modules/adblockplus/web/deploy.py',
 #      path => '/usr/local/bin/deploy.py',
 #    },
 #   }
 #
 #  adblockplus::web::static::hook {'uname':
-#    'file' => {
+#    file => {
 #      content => 'uname -a',
 #    },
 #  }
 #
 #  adblockplus::web::static::hook {'uptime':
-#    'file' => {
-#      target: '/usr/bin/uptime',
-#      ensure: 'link',
+#    file => {
+#      target => '/usr/bin/uptime',
+#      ensure => 'link',
 #    },
 #  }
 #
