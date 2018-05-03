@@ -25,13 +25,10 @@ define adblockplus::web::fileserver::repository (
 
   $repositories_directory = "$adblockplus::directory/fileserver"
   $repository_directory = "$repositories_directory/$name"
+  $group_name = "www-$name"
   $repository_host = $name ? {
-    'root' =>  "$adblockplus::web::fileserver::domain",
+    'www' =>  "$adblockplus::web::fileserver::domain",
     default => "$name.$adblockplus::web::fileserver::domain",
-  }
-  $group_name = $name ? {
-    'root' => 'www',
-    default => "www-$name",
   }
 
   group {"$group_name":

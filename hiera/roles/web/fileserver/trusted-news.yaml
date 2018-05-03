@@ -6,7 +6,7 @@ adblockplus::web::fileserver::repositories:
   "downloads":
     users:
       "download":
-  "root":
+  "www":
     users:
-      "main":
+      "www":
 
