@@ -65,7 +65,6 @@ def remove_tree(to_remove):
 def clean(hash):
     print "cleaning directory"
     cwd = os.path.dirname(os.path.abspath(__file__))
-    filename = os.path.basename(__file__)
     [remove_tree(os.path.join(cwd, x)) for x in os.listdir(cwd)
      if x.startswith(hash)]
 
