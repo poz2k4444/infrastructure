@@ -70,8 +70,8 @@ class adblockplus::web::static (
 
   ensure_resource('file', "/var/www/$domain", {
     ensure => ensure_directory_state($ensure),
-    owner => 'www-data',
-    group => 'www-data',
+    owner => $deploy_user,
+    group => $deploy_user,
   })
 
   ensure_resource('nginx::hostconfig', $title, {
