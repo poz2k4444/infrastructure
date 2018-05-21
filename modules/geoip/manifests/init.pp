@@ -19,9 +19,6 @@
 # [*script*]
 #   Where to store the update script executed by Cron['geoip'].
 #
-# [*version*]
-#   A specific version to ensure for all $packages, optional.
-#
 # === Examples:
 #
 #   class {'geoip':
@@ -37,16 +34,22 @@ class geoip (
   $cron = {},
   $ensure = 'present',
   $hook = undef,
-  $packages = ['geoip-database'],
+  $packages = [
+    'geoip-database',
+    'python-geoip',
+  ],
   $script = '/usr/local/sbin/update-geoip-database',
-  $version = undef,
 ) {
 
   ensure_resource('package', $packages, {
-    ensure => $ensure ? {
-      /^(absent|purged)$/ => $ensure,
-      default => $version ? {undef => 'present', default => $version},
-    },
+    ensure => $ensure,
+  })
+
+  ensure_resource('package', 'python-geoip2', {
+    ensure => $ensure,
+    name => 'geoip2',
+    provider => 'pip',
+    require => Package['python-pip'],
   })
 
   create_resources('cron', {geoip => $cron}, {

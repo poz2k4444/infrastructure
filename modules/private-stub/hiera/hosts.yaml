@@ -167,9 +167,15 @@ adblockplus::hosts:
     role: buildserver
     os: "debian-jessie"
     public_key: *vagrant_box_jessie
-  help-eyeo-com-1:
+  trusted-news-1:
     ips: [10.8.0.228]
+    role: web/fileserver/trusted-news
+    os: "debian-jessie"
+    public_key: *vagrant_box_jessie
+    groups: [http-servers]
+  help-eyeo-com-1:
+    ips: [10.8.0.229]
     role: web/static/helpcenter
     os: "debian-jessie"
     public_key: *vagrant_box_jessie
-   
+
