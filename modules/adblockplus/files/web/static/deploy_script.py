@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 
 import argparse
-from contextlib import closing
 from filecmp import dircmp
 import hashlib
 import os
