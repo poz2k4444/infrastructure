@@ -8,25 +8,19 @@ import os
 import sys
 import shutil
 import tarfile
+import tempfile
 import urllib
 import urllib2
+
+_tmp_dir = tempfile.mkdtemp()
 
 
 def download(url):
     file_name = url.split('/')[-1]
-    abs_file_name = os.path.join(os.path.dirname(os.path.realpath(__file__)),
-                                 file_name)
+    abs_file_name = os.path.join(_tmp_dir, file_name)
     print 'Downloading: ' + file_name
     try:
         filename, _ = urllib.urlretrieve(url, abs_file_name)
-        # with closing(urllib2.urlopen(url)) as page:
-        #     block_sz = 8912
-        #     with open(abs_file_name, 'wb') as f:
-        #         while True:
-        #             buffer = page.read(block_sz)
-        #             if not buffer:
-        #                 break
-        #             f.write(buffer)
         return abs_file_name
     except urllib2.HTTPError as e:
         if e.code == 404:
@@ -51,9 +45,7 @@ def read_md5(file):
 def untar(tar_file):
     if tarfile.is_tarfile(tar_file):
         with tarfile.open(tar_file, 'r:gz') as tar:
-            tar.extractall(os.path.dirname(os.path.realpath(tar_file)))
-            print 'Extracted in current directory'
-            return os.path.dirname(os.path.abspath(__file__))
+            tar.extractall(_tmp_dir)
 
 
 def remove_tree(to_remove):
@@ -62,13 +54,6 @@ def remove_tree(to_remove):
             shutil.rmtree(to_remove)
         else:
             os.remove(to_remove)
-
-
-def clean(hash):
-    print "cleaning directory"
-    cwd = os.path.dirname(os.path.abspath(__file__))
-    [remove_tree(os.path.join(cwd, x)) for x in os.listdir(cwd)
-     if x.startswith(hash)]
 
 
 def deploy_files(dcmp):
@@ -103,37 +88,35 @@ if __name__ == '__main__':
         epilog="""--hash must be provided in order to fetch the files,
                expected files to be fetched are $HASH.tar.gz and $HASH.md5 in
                order to compare the hashes.
-               --url and --domain are mutually exclusive, if url is provided
-               the files will be downloaded from $url/$HASH, otherwise the
-               default value will be fetched from
-               $domain.eyeofiles.com/$HASH""",
+               --source must be an URL, e.g.
+               https://helpcenter.eyeofiles.com""",
     )
-    parser.add_argument('--hash', action='store', type=str, nargs='?',
+    parser.add_argument('--hash', action='store', type=str,
+                        nargs='?', required=True,
                         help='Hash of the commit to deploy')
-    parser.add_argument('--url', action='store', type=str,
-                        help='URL where files will be downloaded')
-    parser.add_argument('--domain', action='store', type=str, nargs='?',
-                        help='''The domain to prepend
-                        [eg. https://$domain.eyeofiles.com]''')
+    parser.add_argument('--source', action='store', type=str,
+                        required=True, nargs='?',
+                        help='The source where files will be downloaded')
     parser.add_argument('--website', action='store', type=str, nargs='?',
                         help='The name of the website [e.g. help.eyeo.com]')
     args = parser.parse_args()
     hash = args.hash
-    domain = args.domain
-    if args.url:
-        url_file = '{0}/{1}.tar.gz'.format(args.url, hash)
-        url_md5 = '{0}/{1}.md5'.format(args.url, hash)
-    else:
-        url_file = 'https://{0}.eyeofiles.com/{1}.tar.gz'.format(domain, hash)
-        url_md5 = 'https://{0}.eyeofiles.com/{1}.md5'.format(domain, hash)
+    source = args.source
+    url_file = '{0}/{1}.tar.gz'.format(source, hash)
+    url_md5 = '{0}/{1}.md5'.format(source, hash)
     down_file = download(url_file)
     down_md5 = download(url_md5)
-    if calculate_md5(down_file) == read_md5(down_md5):
-        tar_directory = untar(down_file)
-        hash_directory = os.path.join(tar_directory, hash)
-        destination = '/var/www/' + args.website
-        dcmp = dircmp(destination, hash_directory)
-        deploy_files(dcmp)
-        clean(hash)
-    else:
-        sys.exit("Hashes don't match")
+    try:
+        if calculate_md5(down_file) == read_md5(down_md5):
+            untar(down_file)
+            hash_directory = os.path.join(_tmp_dir, hash)
+            destination = '/var/www/' + args.website
+            dcmp = dircmp(destination, hash_directory)
+            print "Deploying files"
+            deploy_files(dcmp)
+        else:
+            sys.exit("Hashes don't match")
+    except Exception as e:
+        sys.exit(e)
+    finally:
+        shutil.rmtree(_tmp_dir)
