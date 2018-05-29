@@ -42,31 +42,33 @@ classes:
       rewrite ^/ios-support/removing-filter-list/?$ https://adblockplus.org/forum/viewforum.php?f=26 permanent;
       rewrite ^/zh-CN/android-support/adding-filter-list/?$ https://adblockplus.org/forum/viewforum.php?f=15 permanent;
       rewrite ^/zh-TW/ios-support/install/?$ https://adblockplus.org/forum/viewforum.php?f=26 permanent;
-      location ~ /forum/view(forum|topic) {
-        set $arguments $arg_f/$arg_t/$arg_start;
+      location /forum/viewforum {
         if ($arg_f = "22")
         {
-          rewrite ^(.*)/?$ https://adblockplus.org/forum/viewtopic.php?f=15? permanent;
+          rewrite ^(.*)/?$ https://adblockplus.org/forum/viewforum.php permanent;
         }
+      }
+      location /forum/viewtopic {
+        set $arguments $arg_f/$arg_t/$arg_start;
         if ($arguments = "2/40190/")
         {
-          rewrite ^(.*) https://adblockplus.org/forum/viewforum.php permanent;
+          rewrite ^(.*) https://adblockplus.org/forum/viewtopic.php permanent;
         }
         if ($arguments = "2/36849/")
         {
-          rewrite ^(.*) https://adblockplus.org/forum/viewforum.php permanent;
+          rewrite ^(.*) https://adblockplus.org/forum/viewtopic.php permanent;
         }
         if ($arguments = "1/23617/")
         {
-          rewrite ^(.*) https://adblockplus.org/forum/viewforum.php permanent;
+          rewrite ^(.*) https://adblockplus.org/forum/viewtopic.php permanent;
         }
         if ($arguments = "9/40312/")
         {
-          rewrite ^(.*) https://adblockplus.org/forum/viewforum.php permanent;
+          rewrite ^(.*) https://adblockplus.org/forum/viewtopic.php permanent;
         }
         if ($arguments = "18/21550/15")
         {
-          rewrite ^(.*) https://adblockplus.org/forum/viewforum.php permanent;
+          rewrite ^(.*) https://adblockplus.org/forum/viewtopic.php permanent;
         }
       }
       location /submit-feedback {
