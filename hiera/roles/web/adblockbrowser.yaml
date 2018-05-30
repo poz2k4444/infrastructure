@@ -41,7 +41,7 @@ classes:
       rewrite ^/zh-CN/android-support/adding-filter-list/?$ https://adblockplus.org/forum/viewforum.php?f=15 permanent;
       rewrite ^/zh-TW/ios-support/install/?$ https://adblockplus.org/forum/viewforum.php?f=26 permanent;
       location ~ /forum/view(forum|topic) {
-       rewrite ^(.*)/(forum)/view(forum|topic) https://adblockplus.org/$2/view$3.php permanent;
+       rewrite ^(.*)/(forum)/(view(forum|topic)) https://adblockplus.org/$2/$3.php permanent;
       }
       location /submit-feedback {
         proxy_pass http://127.0.0.1:8000;
