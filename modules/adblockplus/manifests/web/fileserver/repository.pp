@@ -18,9 +18,13 @@
 # System users that should be created and added to the group that has 
 # write permissions for the repository directory
 #
+# [*auth_users*]
+# Array of users in the form of user:hash, used for http basic authentication
+#
 define adblockplus::web::fileserver::repository (
   $ensure = 'present',
   $users = {},
+  $auth_users = [],
 ){
 
   $repositories_directory = "$adblockplus::directory/fileserver"
@@ -29,6 +33,20 @@ define adblockplus::web::fileserver::repository (
   $repository_host = $name ? {
     'www' =>  "$adblockplus::web::fileserver::domain",
     default => "$name.$adblockplus::web::fileserver::domain",
+  }
+  $auth_file = "$adblockplus::directory/${name}_htpasswd"
+
+  nginx::hostconfig{ "$repository_host":
+    content => template("adblockplus/web/fileserver.conf.erb"),
+    is_default => false,
+    certificate => $adblockplus::web::fileserver::certificate,
+    private_key => $adblockplus::web::fileserver::private_key,
+    log => 'access_log_fileserver',
+  }
+
+  file {"$auth_file":
+    ensure => ensure_file_state($ensure),
+    content => inline_template('<%= @auth_users.join("\n") if @auth_users %>')
   }
 
   group {"$group_name":
