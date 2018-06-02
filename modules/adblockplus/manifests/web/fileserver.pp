@@ -4,6 +4,10 @@
 #
 # === Parameters:
 #
+# [*domain*]
+#   A string which is the name of the fileserver domain, under which
+#   each repository has a subdomain.
+#
 # [*certificate*]
 #   The name of the SSL certificate file within modules/private/files, if any.
 #   Requires a private_key as well.
@@ -18,6 +22,7 @@
 #
 class adblockplus::web::fileserver(
   $ensure = 'present',
+  $domain,
   $certificate = undef,
   $private_key = undef,
   $repositories={},
@@ -30,6 +35,10 @@ class adblockplus::web::fileserver(
   realize(File[$adblockplus::directory])
 
   file {"$adblockplus::directory/fileserver":
+    ensure => directory,
+  }
+
+  file {"${::adblockplus::directory}/htpasswd":
     ensure => directory,
   }
 

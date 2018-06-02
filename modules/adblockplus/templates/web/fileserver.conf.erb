@@ -2,8 +2,8 @@
 
 location / {
     root /var/www/$host;
-<% if !@auth_users.empty? -%>
+<% if @auth_file -%>
     auth_basic "Password protected";
-    auth_basic_user_file <%= @auth_file%>;
+    auth_basic_user_file <%= @auth_filename %>;
 <% end -%>
   }
