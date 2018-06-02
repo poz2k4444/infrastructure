@@ -36,7 +36,7 @@ define adblockplus::web::fileserver::repository (
   }
   $auth_file = "$adblockplus::directory/${name}_htpasswd"
 
-  nginx::hostconfig{ "$repository_host":
+  nginx::hostconfig {"$repository_host":
     content => template("adblockplus/web/fileserver.conf.erb"),
     is_default => false,
     certificate => $adblockplus::web::fileserver::certificate,
