@@ -19,7 +19,7 @@ def download(url):
     abs_file_name = os.path.join(_tmp_dir, file_name)
     print 'Downloading: ' + file_name
     try:
-        filename, _ = urllib.urlretrieve(url, abs_file_name)
+        urllib.urlretrieve(url, abs_file_name)
         return abs_file_name
     except urllib2.HTTPError as e:
         if e.code == 404:
