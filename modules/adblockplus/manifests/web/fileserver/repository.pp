@@ -45,9 +45,11 @@ define adblockplus::web::fileserver::repository (
     log => 'access_log_fileserver',
   }
 
-  ensure_resource('file', $auth_filename, merge({
-    ensure => ensure_file_state($ensure),
-  }, $auth_file))
+  if $auth_file != undef {
+    ensure_resource('file', $auth_filename, merge({
+      ensure => ensure_file_state($ensure),
+    }, $auth_file))
+  }
 
   group {"$group_name":
     ensure => $ensure,
