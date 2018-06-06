@@ -50,7 +50,7 @@ def deploy_files(dcmp):
     for name in dcmp.diff_files:
         copytree(dcmp.right, dcmp.left)
     for name in dcmp.left_only:
-        remove_tree(os.path.join(dcmp.left + "/" + name))
+        remove_tree(os.path.join(dcmp.left, name))
     for name in dcmp.right_only:
         copytree(dcmp.right, dcmp.left)
     for sub_dcmp in dcmp.subdirs.values():
@@ -81,11 +81,9 @@ if __name__ == '__main__':
                --source must be an URL, e.g.
                https://helpcenter.eyeofiles.com""",
     )
-    parser.add_argument('--hash', action='store', type=str,
-                        required=True,
+    parser.add_argument('--hash', action='store', type=str, required=True,
                         help='Hash of the commit to deploy')
-    parser.add_argument('--source', action='store', type=str,
-                        required=True,
+    parser.add_argument('--source', action='store', type=str, required=True,
                         help='The source where files will be downloaded')
     parser.add_argument('--website', action='store', type=str,
                         help='The name of the website [e.g. help.eyeo.com]')
