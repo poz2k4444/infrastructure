@@ -33,12 +33,12 @@ _doc = """--name must be provided in order to fetch the files,
        https://helpcenter.eyeofiles.com"""
 
 
-def download(url, tmp_dir):
+def download(url, temporary_directory):
     file_name = url.split('/')[-1]
-    abs_file_name = os.path.join(tmp_dir, file_name)
+    absolute_file_path = os.path.join(temporary_directory, file_name)
     print 'Downloading: ' + file_name
-    urllib.urlretrieve(url, abs_file_name)
-    return abs_file_name
+    urllib.urlretrieve(url, absolute_file_path)
+    return absolute_file_path
 
 
 def calculate_md5(file):
@@ -54,10 +54,10 @@ def read_md5(file):
     return md5_result.strip()
 
 
-def untar(tar_file, tmp_dir):
+def untar(tar_file, temporary_directory):
     if tarfile.is_tarfile(tar_file):
         with tarfile.open(tar_file, 'r:gz') as tar:
-            tar.extractall(tmp_dir)
+            tar.extractall(temporary_directory)
 
 
 def remove_tree(to_remove):
@@ -68,15 +68,15 @@ def remove_tree(to_remove):
             os.remove(to_remove)
 
 
-def deploy_files(dcmp):
-    for name in dcmp.diff_files:
-        copytree(dcmp.right, dcmp.left)
-    for name in dcmp.left_only:
-        remove_tree(os.path.join(dcmp.left, name))
-    for name in dcmp.right_only:
-        copytree(dcmp.right, dcmp.left)
-    for sub_dcmp in dcmp.subdirs.values():
-        deploy_files(sub_dcmp)
+def deploy_files(directory_comparison):
+    for name in directory_comparison.diff_files:
+        copytree(directory_comparison.right, directory_comparison.left)
+    for name in directory_comparison.left_only:
+        remove_tree(os.path.join(directory_comparison.left, name))
+    for name in directory_comparison.right_only:
+        copytree(directory_comparison.right, directory_comparison.left)
+    for subdirectory_comparison in directory_comparison.subdirs.values():
+        deploy_files(subdirectory_comparison)
 
 
 # shutil.copytree copies a tree but the destination directory MUST NOT exist
@@ -108,25 +108,25 @@ if __name__ == '__main__':
                         help='The source where files will be downloaded')
     parser.add_argument('--website', action='store', type=str,
                         help='The name of the website [e.g. help.eyeo.com]')
-    args = parser.parse_args()
-    name = args.name
-    source = args.source
+    arguments = parser.parse_args()
+    name = arguments.name
+    source = arguments.source
     url_file = '{0}/{1}.tar.gz'.format(source, name)
     url_md5 = '{0}/{1}.md5'.format(source, name)
-    tmp_dir = tempfile.mkdtemp()
+    temporary_directory = tempfile.mkdtemp()
     try:
-        down_file = download(url_file, tmp_dir)
-        down_md5 = download(url_md5, tmp_dir)
-        if calculate_md5(down_file) == read_md5(down_md5):
-            untar(down_file, tmp_dir)
-            name_directory = os.path.join(tmp_dir, name)
-            destination = os.path.join('/var/www/', args.website)
-            dcmp = dircmp(destination, name_directory)
+        downloaded_file = download(url_file, temporary_directory)
+        downloaded_md5 = download(url_md5, temporary_directory)
+        if calculate_md5(downloaded_file) == read_md5(downloaded_md5):
+            untar(downloaded_file, temporary_directory)
+            name_directory = os.path.join(temporary_directory, name)
+            destination = os.path.join('/var/www/', arguments.website)
+            directory_comparison = dircmp(destination, name_directory)
             print 'Deploying files'
-            deploy_files(dcmp)
+            deploy_files(directory_comparison)
         else:
             sys.exit("Hashes don't match")
-    except Exception as e:
-        sys.exit(e)
+    except Exception as error:
+        sys.exit(error)
     finally:
-        shutil.rmtree(tmp_dir)
+        shutil.rmtree(temporary_directory)
