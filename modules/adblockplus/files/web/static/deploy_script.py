@@ -26,11 +26,11 @@ import tempfile
 import urllib
 
 
-_doc = """This script MUST be renamed in the form of deploy_$WEBSITE, e.g.
-       deploy_help.eyeo.com, --name must be provided in order to fetch the
-       files, expected files to be fetched are $NAME.tar.gz and $NAME.md5 in
-       order to compare the hashes. --source must be an URL, e.g.
-       https://helpcenter.eyeofiles.com"""
+__doc__ = """This script MUST be renamed in the form of deploy_$WEBSITE, e.g.
+          deploy_help.eyeo.com, --name must be provided in order to fetch the
+          files, expected files to be fetched are $NAME.tar.gz and $NAME.md5 in
+          order to compare the hashes. --source must be an URL, e.g.
+          https://helpcenter.eyeofiles.com"""
 
 
 def download(url, temporary_directory):
@@ -42,15 +42,15 @@ def download(url, temporary_directory):
 
 
 def calculate_md5(file):
-    with open(file) as f:
-        data = f.read()
+    with open(file) as file_handle:
+        data = file_handle.read()
         md5_result = hashlib.md5(data).hexdigest()
     return md5_result.strip()
 
 
 def read_md5(file):
-    with open(file) as f:
-        md5_result = f.readline()
+    with open(file) as file_handle:
+        md5_result = file_handle.readline()
     return md5_result.strip()
 
 
@@ -101,7 +101,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(
         description="""Fetch a compressed archive in the form of $NAME.tar.gz
                     and deploy it to /var/www/{0} folder""".format(website),
-        epilog=_doc,
+        epilog=__doc__,
     )
     parser.add_argument('--name', action='store', type=str, required=True,
                         help='Name of the tarball to deploy')
@@ -118,13 +118,15 @@ if __name__ == '__main__':
         downloaded_md5 = download(url_md5, temporary_directory)
         if calculate_md5(downloaded_file) == read_md5(downloaded_md5):
             untar(downloaded_file, temporary_directory)
-            name_directory = os.path.join(temporary_directory, name)
+            tarball_directory = os.path.join(temporary_directory, name)
             destination = os.path.join('/var/www/', website)
-            directory_comparison = dircmp(destination, name_directory)
+            directory_comparison = dircmp(destination, tarball_directory)
             print 'Deploying files'
             deploy_files(directory_comparison)
         else:
-            sys.exit("Hashes don't match")
+            error_message = """{0}.tar.gz md5 computation doesn't match {0}.md5
+                            contents""".format(name)
+            sys.exit(error_message)
     except Exception as error:
         sys.exit(error)
     finally:
