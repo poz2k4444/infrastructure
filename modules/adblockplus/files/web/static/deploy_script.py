@@ -26,10 +26,10 @@ import tempfile
 import urllib
 
 
-_doc = """--name must be provided in order to fetch the files,
-       expected files to be fetched are $NAME.tar.gz and $NAME.md5 in
-       order to compare the hashes.
-       --source must be an URL, e.g.
+_doc = """This script MUST be renamed in the form of deploy_$WEBSITE, e.g.
+       deploy_help.eyeo.com, --name must be provided in order to fetch the
+       files, expected files to be fetched are $NAME.tar.gz and $NAME.md5 in
+       order to compare the hashes. --source must be an URL, e.g.
        https://helpcenter.eyeofiles.com"""
 
 
@@ -97,17 +97,16 @@ def copytree(source, destination):
 
 
 if __name__ == '__main__':
+    website = os.path.basename(__file__)[len("deploy_"):]
     parser = argparse.ArgumentParser(
         description="""Fetch a compressed archive in the form of $NAME.tar.gz
-                    and deploy it to /var/www/$WEBSITE folder""",
+                    and deploy it to /var/www/{0} folder""".format(website),
         epilog=_doc,
     )
     parser.add_argument('--name', action='store', type=str, required=True,
                         help='Name of the tarball to deploy')
     parser.add_argument('--source', action='store', type=str, required=True,
                         help='The source where files will be downloaded')
-    parser.add_argument('--website', action='store', type=str,
-                        help='The name of the website [e.g. help.eyeo.com]')
     arguments = parser.parse_args()
     name = arguments.name
     source = arguments.source
@@ -120,7 +119,7 @@ if __name__ == '__main__':
         if calculate_md5(downloaded_file) == read_md5(downloaded_md5):
             untar(downloaded_file, temporary_directory)
             name_directory = os.path.join(temporary_directory, name)
-            destination = os.path.join('/var/www/', arguments.website)
+            destination = os.path.join('/var/www/', website)
             directory_comparison = dircmp(destination, name_directory)
             print 'Deploying files'
             deploy_files(directory_comparison)
