@@ -26,8 +26,8 @@ import tempfile
 import urllib
 
 
-__doc__ = """This script MUST be renamed in the form of deploy_$WEBSITE, e.g.
-          deploy_help.eyeo.com, --name must be provided in order to fetch the
+__doc__ = """This script MUST be renamed in the form of $WEBSITE, e.g.
+          help.eyeo.com, --name must be provided in order to fetch the
           files, expected files to be fetched are $NAME.tar.gz and $NAME.md5 in
           order to compare the hashes. --source must be an URL, e.g.
           https://helpcenter.eyeofiles.com"""
@@ -97,7 +97,7 @@ def copytree(source, destination):
 
 
 if __name__ == '__main__':
-    website = os.path.basename(__file__)[len("deploy_"):]
+    website = os.path.basename(__file__)
     parser = argparse.ArgumentParser(
         description="""Fetch a compressed archive in the form of $NAME.tar.gz
                     and deploy it to /var/www/{0} folder""".format(website),

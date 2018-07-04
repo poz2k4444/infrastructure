@@ -10,6 +10,6 @@ adblockplus::web::static::hooks:
     file:
       target: "/usr/bin/uptime"
       ensure: "link"
-  deploy:
+  help.eyeo.com:
     file:
       source: "puppet:///modules/adblockplus/web/static/deploy_script.py"
