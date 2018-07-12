@@ -115,7 +115,7 @@ class web::server(
 
   $fetch_repo_cmd = [
     'hg', 'clone',
-    '--noupdate',
+    '--update', 'master',
     $remote,
     "/home/www/${repository}",
   ]
@@ -154,6 +154,7 @@ class web::server(
   $update_cms_cmd = [
     'hg', 'pull',
     '--quiet',
+    '--rev', 'master',
     '--update',
     '--repository', '/opt/cms',
   ]
