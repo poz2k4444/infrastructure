@@ -2,6 +2,7 @@ classes:
   adblockplus::legacy::filterserver:
   notificationserver:
     is_default: false
+  adblockplus::log::archive:
 
 filterserver::is_default: true
 

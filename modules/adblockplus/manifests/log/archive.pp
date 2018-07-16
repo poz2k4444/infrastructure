@@ -16,12 +16,12 @@ class adblockplus::log::archive (
 ) {
 
   ensure_resource('adblockplus::user', 'archive', merge({
-    ensure => ensure_state($ensure),
+    ensure => $ensure,
     groups => ['adm', 'root'],
     name => 'archive',
   }, $user))
 
-  ensure_resource('directory', '/var/log/archive', merge({
+  ensure_resource('file', '/var/log/archive', merge({
     ensure => ensure_directory_state($ensure),
     group => 'root',
   }, $directory))
@@ -44,7 +44,7 @@ class adblockplus::log::archive (
   ]
 
   ensure_resource('cron', 'archive_logs', merge({
-    command => shellquote($cron_command),
+    command => join($cron_command, ' '),
     user    => 'root',
     hour    => 2,
     minute  => 0
