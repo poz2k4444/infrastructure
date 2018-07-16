@@ -9,6 +9,7 @@ class nginx (
   # Class['ssh'] is assumed to handle SSL-related quirks and therefore
   # the inclusion here became necessary.
   include ssh
+  include geoip
 
   package {'nginx':
     ensure => 'latest',

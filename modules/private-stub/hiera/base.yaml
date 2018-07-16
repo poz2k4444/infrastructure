@@ -10,6 +10,9 @@ classes:
 adblockplus::log::uplink:
   log@log1.adblockplus.org
 
+adblockplus::log::salt:
+  'changeme'
+
 adblockplus::packages:
   - "debian-goodies"
   - "python-dev"
