@@ -37,7 +37,7 @@ class adblockplus::log::archive (
     'cat', '/var/log/nginx/access_log_easylist_downloads.1 |',
     '/usr/local/bin/anonymize-access-log',
     '--geolite2-city-db /usr/share/GeoIP/GeoLite2-City.mmdb',
-    '--geolite-country-db /usr/share/GeoIP/GeoLite2-Country.mmdb',
+    '--geolite2-country-db /usr/share/GeoIP/GeoLite2-Country.mmdb',
     "--salt $log_salt |",
     "gzip -9 > /var/log/archive.`date +%Y-%m-%d`.`md5sum /var/log/nginx/access_log_easylist_downloads.1 |",
     "cut -d' ' -f1`.gz",
